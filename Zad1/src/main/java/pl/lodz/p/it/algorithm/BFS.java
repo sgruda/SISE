@@ -97,7 +97,8 @@ public class BFS extends Solution {
         }
     }
     public void solve() {
-
+        while (!isSolved())
+            currentState = move(getDirectionToMove());
     }
 
 }
