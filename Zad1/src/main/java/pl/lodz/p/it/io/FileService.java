@@ -17,6 +17,8 @@ public class FileService {
     private int ROW_NUMBER;
     private int COLUMN_NUMBER;
 
+
+
     public FileService(String PUZZLE_FILE, String SOLVED_FILE, String ADDITIONAL_DATA_FILE, String ALGORITHM_FILE) {
         this.PUZZLE_FILE = PUZZLE_FILE;
         this.SOLVED_FILE = SOLVED_FILE;
@@ -43,9 +45,10 @@ public class FileService {
                 }
                 line++;
             }
+            return puzzle;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+    return null;
     }
 }
