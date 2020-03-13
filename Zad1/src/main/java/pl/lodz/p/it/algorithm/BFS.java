@@ -46,10 +46,16 @@ public class BFS extends Solution {
     }
     private boolean isSolved() {
         int i = 0;
+        System.out.println("before");
+        for(int p [] : currentState) {
+            for(int k : p)
+                System.out.print(k + " ");
+            System.out.println();
+        }
         for(int[] b : currentState) {
             for(int b2 : b) {
                 if(b2 != i) {
-                    return false;
+                    return currentState[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0 ?  true :  false;
                 }
                 i++;
             }
@@ -160,15 +166,15 @@ public class BFS extends Solution {
             if(canMoved(direction))
                 currentState = move(direction);
             temp++;
-            if(temp > 25) {
-                System.out.println("To chce zapisac");
-                for(int p [] : currentState) {
-                    for(int i : p)
-                       System.out.print(i + " ");
-                    System.out.println();
-                }
-                break;
-            }
+//            if(temp > 50) {
+//                System.out.println("To chce zapisac");
+//                for(int p [] : currentState) {
+//                    for(int i : p)
+//                       System.out.print(i + " ");
+//                    System.out.println();
+//                }
+//                break;
+//            }
         }
         return currentState;
     }
