@@ -18,19 +18,27 @@ public class BFS extends Solution {
         super(COLUMN_NUMBER, ROW_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
         states = new LinkedList<int[][]>();
-        currentState = new int[super.getCOLUMN_NUMBER()][super.getROW_NUMBER()];
+        currentState = puzzles.clone();
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
-        System.out.println(puzzles);
+
+//        System.out.println("Konstruktor");
+//        for(int p [] : puzzles) {
+//            for(int i : p)
+//               System.out.print(i + " ");
+//            System.out.println();
+//        }
     }
     private Pair<Integer, Integer> locateZero(int[][] tab) {
         int i = 0;
+        int j;
         for(int[] b : tab) {
+            j = 0;
             for(int b2 : b) {
                 if(b2 == 0) {
-                    // System.out.println("zero coords " + i + " " + b2);
-                    return new Pair<>(i, b2);
+                    return new Pair<>(i, j);
                 }
+                j++;
             }
             i++;
         }
@@ -82,8 +90,21 @@ public class BFS extends Solution {
         int[][] newState = currentState.clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
-        System.out.println("current\n" + currentState);
-        System.out.println("newState\n" + newState);
+////Debug
+//        System.out.println("move");
+//        System.out.println("current");
+//        for(int p [] : currentState) {
+//            for(int i : p)
+//                System.out.print(i + " ");
+//            System.out.println();
+//        }
+//        System.out.println("new");
+//        for(int p [] : newState) {
+//            for(int i : p)
+//                System.out.print(i + " ");
+//            System.out.println();
+//        }
+
         switch (direction) {
             case up: {
                 newX = zeroCoordinates.fst;
@@ -139,9 +160,16 @@ public class BFS extends Solution {
             if(canMoved(direction))
                 currentState = move(direction);
             temp++;
-            // if(temp > 100) break;
+            if(temp > 25) {
+                System.out.println("To chce zapisac");
+                for(int p [] : currentState) {
+                    for(int i : p)
+                       System.out.print(i + " ");
+                    System.out.println();
+                }
+                break;
+            }
         }
         return currentState;
     }
-
 }
