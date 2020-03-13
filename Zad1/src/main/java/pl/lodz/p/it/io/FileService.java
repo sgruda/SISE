@@ -1,6 +1,5 @@
 package pl.lodz.p.it.io;
 
-import com.sun.tools.javac.util.Pair;
 import lombok.Getter;
 
 import java.io.*;
@@ -51,23 +50,7 @@ public class FileService {
             e.printStackTrace();
         }
     }
-    public void saveData(final int[][] solvedPuzzle) throws IOException {
-        File file = new File(this.SOLVED_FILE);
-//        try (FileOutputStream fout = new FileOutputStream(file)) {
-//            //byte i = 0;
-//            for(int [] b : solvedPuzzle) {
-//                for(int b2 : b) {
-//                    fout.write(b2);
-//
-//                    //i++;
-//                }
-//               // fout.write("\n");
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public void saveData(final int[][] solvedPuzzle) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < solvedPuzzle.length; i++) {
             for (int j = 0; j < solvedPuzzle.length; j++) {
@@ -77,7 +60,7 @@ public class FileService {
             }
             builder.append("\n");
         }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.SOLVED_FILE)))) {
             writer.write(builder.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();

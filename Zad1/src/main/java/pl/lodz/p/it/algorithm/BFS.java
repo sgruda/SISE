@@ -4,21 +4,15 @@ import com.sun.tools.javac.util.Pair;
 import pl.lodz.p.it.abstraction.Direction;
 import pl.lodz.p.it.abstraction.Solution;
 
-import java.util.LinkedList;
-
 public class BFS extends Solution {
 
-    private LinkedList<int[][]> states;
-    private int[][] currentState;
-    private Pair<Integer, Integer> zeroCoordinates;
     private final String searchOrder;
     private int directionCharIndex;
+    private Pair<Integer, Integer> zeroCoordinates;
 
     public BFS(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder){
         super(COLUMN_NUMBER, ROW_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
-        states = new LinkedList<>();
-        currentState = puzzles.clone();
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
     }
@@ -39,10 +33,10 @@ public class BFS extends Solution {
     }
     private boolean isSolved() {
         int i = 0;
-        for(int[] b : currentState) {
+        for(int[] b : super.getCurrentState()) {
             for(int b2 : b) {
                 if(b2 != i) {
-                    return currentState[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0 ?  true :  false;
+                    return super.getCurrentState()[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0 ?  true :  false;
                 }
                 i++;
             }
@@ -79,8 +73,8 @@ public class BFS extends Solution {
         return  false;
     }
     private int[][] move(Direction direction) {
-        states.add(currentState);
-        int[][] newState = currentState.clone();
+        super.getStates().add(super.getCurrentState());
+        int[][] newState = super.getCurrentState().clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
 
@@ -134,8 +128,8 @@ public class BFS extends Solution {
         while (!isSolved()){
             direction = getDirectionToMove();
             if(canMoved(direction))
-                currentState = move(direction);
+                super.setCurrentState(move(direction));
         }
-        return currentState;
+        return super.getCurrentState();
     }
 }
