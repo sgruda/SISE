@@ -19,7 +19,7 @@ public class FileService {
     private final String ALGORITHM_FILE;
     private int ROW_NUMBER;
     private int COLUMN_NUMBER;
-    private byte[][] puzzle;
+    private int[][] puzzle;
 
 
     public FileService(String PUZZLE_FILE, String SOLVED_FILE, String ADDITIONAL_DATA_FILE, String ALGORITHM_FILE) {
@@ -34,12 +34,12 @@ public class FileService {
         File file = new File(this.PUZZLE_FILE);
         try (Scanner sc = new Scanner(file)) {
             int line = 0;
-            byte [][] puzzle = null;
+            int [][] puzzle = null;
             while (sc.hasNextLine()) {
                 if(0 == line) {
                     this.ROW_NUMBER = sc.nextByte();
                     this.COLUMN_NUMBER = sc.nextByte();
-                    puzzle = new byte[this.ROW_NUMBER][this.COLUMN_NUMBER];
+                    puzzle = new int[this.ROW_NUMBER][this.COLUMN_NUMBER];
                 } else {
                     int i = 0;
                     while(i < this.COLUMN_NUMBER) {
@@ -54,13 +54,13 @@ public class FileService {
             e.printStackTrace();
         }
     }
-    public void saveData(final byte[][] solvedPuzzle)  {
+    public void saveData(final int[][] solvedPuzzle)  {
         File file = new File(this.SOLVED_FILE);
         try (FileOutputStream fout = new FileOutputStream(file)) {
             byte i = 0;
-            for(byte [] b : solvedPuzzle) {
-                for(byte b2 : b) {
-                    fout.write(String.valueOf(b2).getBytes());
+            for(int [] b : solvedPuzzle) {
+                for(int b2 : b) {
+                    fout.write(b2);
                     i++;
                 }
                 fout.write(System.getProperty("line.separator").getBytes());

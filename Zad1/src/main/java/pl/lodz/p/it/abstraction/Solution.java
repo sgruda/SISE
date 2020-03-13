@@ -8,9 +8,9 @@ public abstract class Solution {
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
     private final int SIZE;
-    private final byte[][] puzzles;
+    private final int[][] puzzles;
 
-    public Solution(int COLUMN_NUMBER, int ROW_NUMBER, byte[][] puzzles) {
+    public Solution(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
         this.SIZE = COLUMN_NUMBER * ROW_NUMBER;

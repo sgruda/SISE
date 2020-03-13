@@ -8,27 +8,27 @@ import java.util.LinkedList;
 
 public class BFS extends Solution {
 
-    private LinkedList<byte[][]> states;
-    private byte[][] currentState;
-    private Pair<Byte, Byte> zeroCoordinates;
+    private LinkedList<int[][]> states;
+    private int[][] currentState;
+    private Pair<Integer, Integer> zeroCoordinates;
     private final String searchOrder;
     private int directionCharIndex;
 
-    public BFS(int COLUMN_NUMBER, int ROW_NUMBER, byte[][] puzzles, String searchOrder){
+    public BFS(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder){
         super(COLUMN_NUMBER, ROW_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
-        states = new LinkedList<byte[][]>();
-        currentState = new byte[super.getCOLUMN_NUMBER()][super.getROW_NUMBER()];
+        states = new LinkedList<int[][]>();
+        currentState = new int[super.getCOLUMN_NUMBER()][super.getROW_NUMBER()];
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
         System.out.println(puzzles);
     }
-    private Pair<Byte, Byte> locateZero(byte[][] tab) {
-        byte i = 0;
-        for(byte[] b : tab) {
-            for(byte b2 : b) {
+    private Pair<Integer, Integer> locateZero(int[][] tab) {
+        int i = 0;
+        for(int[] b : tab) {
+            for(int b2 : b) {
                 if(b2 == 0) {
-                   // System.out.println("zero coords " + i + " " + b2);
+                    // System.out.println("zero coords " + i + " " + b2);
                     return new Pair<>(i, b2);
                 }
             }
@@ -38,8 +38,8 @@ public class BFS extends Solution {
     }
     private boolean isSolved() {
         int i = 0;
-        for(byte[] b : currentState) {
-            for(byte b2 : b) {
+        for(int[] b : currentState) {
+            for(int b2 : b) {
                 if(b2 != i) {
                     return false;
                 }
@@ -77,35 +77,37 @@ public class BFS extends Solution {
         }
         return  false;
     }
-    private byte[][] move(Direction direction) {
+    private int[][] move(Direction direction) {
         states.add(currentState);
-        byte[][] newState = currentState.clone();
-        byte newX = zeroCoordinates.fst;
-        byte newY = zeroCoordinates.snd;
+        int[][] newState = currentState.clone();
+        int newX = zeroCoordinates.fst;
+        int newY = zeroCoordinates.snd;
+        System.out.println("current\n" + currentState);
+        System.out.println("newState\n" + newState);
         switch (direction) {
             case up: {
                 newX = zeroCoordinates.fst;
-                newY = (byte) (zeroCoordinates.snd + 1);
+                newY = zeroCoordinates.snd + 1;
                 break;
             }
             case down: {
                 newX = zeroCoordinates.fst;
-                newY = (byte) (zeroCoordinates.snd - 1);
+                newY = zeroCoordinates.snd - 1;
                 break;
             }
             case left: {
-                newX = (byte) (zeroCoordinates.fst - 1);
+                newX = zeroCoordinates.fst - 1;
                 newY = zeroCoordinates.snd;
                 break;
             }
             case right: {
-                newX = (byte) (zeroCoordinates.fst + 1);
+                newX = zeroCoordinates.fst + 1;
                 newY = zeroCoordinates.snd;
                 break;
             }
         }
 //        System.out.println("zeroCoordinates.fst = " + zeroCoordinates.fst + " zeroCoordinates.snd = " + zeroCoordinates.snd);
-        //System.out.println("newX = " + newX + " newY = " + newY);
+//        System.out.println("newX = " + newX + " newY = " + newY);
         newState[zeroCoordinates.fst][zeroCoordinates.snd] = newState[newX][newY];
         newState[newX][newY] = 0;
         zeroCoordinates = new Pair<>(newX, newY);
@@ -129,12 +131,15 @@ public class BFS extends Solution {
                 return null;
         }
     }
-    public byte[][] solve() {
+    public int[][] solve() {
         Direction direction;
+        int temp =0;
         while (!isSolved()){
             direction = getDirectionToMove();
             if(canMoved(direction))
                 currentState = move(direction);
+            temp++;
+            // if(temp > 100) break;
         }
         return currentState;
     }
