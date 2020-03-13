@@ -17,17 +17,10 @@ public class BFS extends Solution {
     public BFS(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder){
         super(COLUMN_NUMBER, ROW_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
-        states = new LinkedList<int[][]>();
+        states = new LinkedList<>();
         currentState = puzzles.clone();
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
-
-//        System.out.println("Konstruktor");
-//        for(int p [] : puzzles) {
-//            for(int i : p)
-//               System.out.print(i + " ");
-//            System.out.println();
-//        }
     }
     private Pair<Integer, Integer> locateZero(int[][] tab) {
         int i = 0;
@@ -46,12 +39,6 @@ public class BFS extends Solution {
     }
     private boolean isSolved() {
         int i = 0;
-        System.out.println("before");
-        for(int p [] : currentState) {
-            for(int k : p)
-                System.out.print(k + " ");
-            System.out.println();
-        }
         for(int[] b : currentState) {
             for(int b2 : b) {
                 if(b2 != i) {
@@ -96,20 +83,6 @@ public class BFS extends Solution {
         int[][] newState = currentState.clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
-////Debug
-//        System.out.println("move");
-//        System.out.println("current");
-//        for(int p [] : currentState) {
-//            for(int i : p)
-//                System.out.print(i + " ");
-//            System.out.println();
-//        }
-//        System.out.println("new");
-//        for(int p [] : newState) {
-//            for(int i : p)
-//                System.out.print(i + " ");
-//            System.out.println();
-//        }
 
         switch (direction) {
             case up: {
@@ -133,8 +106,6 @@ public class BFS extends Solution {
                 break;
             }
         }
-//        System.out.println("zeroCoordinates.fst = " + zeroCoordinates.fst + " zeroCoordinates.snd = " + zeroCoordinates.snd);
-//        System.out.println("newX = " + newX + " newY = " + newY);
         newState[zeroCoordinates.fst][zeroCoordinates.snd] = newState[newX][newY];
         newState[newX][newY] = 0;
         zeroCoordinates = new Pair<>(newX, newY);
@@ -160,21 +131,10 @@ public class BFS extends Solution {
     }
     public int[][] solve() {
         Direction direction;
-        int temp =0;
         while (!isSolved()){
             direction = getDirectionToMove();
             if(canMoved(direction))
                 currentState = move(direction);
-            temp++;
-//            if(temp > 50) {
-//                System.out.println("To chce zapisac");
-//                for(int p [] : currentState) {
-//                    for(int i : p)
-//                       System.out.print(i + " ");
-//                    System.out.println();
-//                }
-//                break;
-//            }
         }
         return currentState;
     }
