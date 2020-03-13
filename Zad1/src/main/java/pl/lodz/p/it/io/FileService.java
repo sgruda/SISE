@@ -3,10 +3,7 @@ package pl.lodz.p.it.io;
 import com.sun.tools.javac.util.Pair;
 import lombok.Getter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -54,17 +51,34 @@ public class FileService {
             e.printStackTrace();
         }
     }
-    public void saveData(final int[][] solvedPuzzle)  {
+    public void saveData(final int[][] solvedPuzzle) throws IOException {
         File file = new File(this.SOLVED_FILE);
-        try (FileOutputStream fout = new FileOutputStream(file)) {
-            byte i = 0;
-            for(int [] b : solvedPuzzle) {
-                for(int b2 : b) {
-                    fout.write(b2);
-                    i++;
-                }
-                fout.write(System.getProperty("line.separator").getBytes());
+//        try (FileOutputStream fout = new FileOutputStream(file)) {
+//            //byte i = 0;
+//            for(int [] b : solvedPuzzle) {
+//                for(int b2 : b) {
+//                    fout.write(b2);
+//
+//                    //i++;
+//                }
+//               // fout.write("\n");
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < solvedPuzzle.length; i++) {
+            for (int j = 0; j < solvedPuzzle.length; j++) {
+                builder.append(solvedPuzzle[i][j] + "");
+                if (j < solvedPuzzle.length - 1)
+                    builder.append(" ");
             }
+            builder.append("\n");
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(builder.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
