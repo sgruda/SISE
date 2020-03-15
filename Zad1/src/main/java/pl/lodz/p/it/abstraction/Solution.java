@@ -1,11 +1,27 @@
 package pl.lodz.p.it.abstraction;
 
-import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@AllArgsConstructor
+import java.util.LinkedList;
+
+@Getter
 public abstract class Solution {
-    private final int WIDTH;
-    private final int HEIGHT;
-    private final int SIZE = WIDTH * HEIGHT;
-    private final byte[] puzzles;
+    private final int COLUMN_NUMBER;
+    private final int ROW_NUMBER;
+    private final int[][] puzzles;
+
+    @Setter
+    private LinkedList<int[][]> states;
+    @Setter
+    private int[][] currentState;
+
+    public Solution(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
+        this.COLUMN_NUMBER = COLUMN_NUMBER;
+        this.ROW_NUMBER = ROW_NUMBER;
+        this.puzzles = puzzles;
+
+        this.states = new LinkedList<>();
+        this.currentState = puzzles.clone();
+    }
 }
