@@ -12,17 +12,15 @@ public class FileService {
     private final String PUZZLE_FILE;
     private final String SOLVED_FILE;
     private final String ADDITIONAL_DATA_FILE;
-    private final String ALGORITHM_FILE;
     private int ROW_NUMBER;
     private int COLUMN_NUMBER;
     private int[][] puzzle;
 
 
-    public FileService(String PUZZLE_FILE, String SOLVED_FILE, String ADDITIONAL_DATA_FILE, String ALGORITHM_FILE) {
+    public FileService(String PUZZLE_FILE, String SOLVED_FILE, String ADDITIONAL_DATA_FILE) {
         this.PUZZLE_FILE = PUZZLE_FILE;
         this.SOLVED_FILE = SOLVED_FILE;
         this.ADDITIONAL_DATA_FILE = ADDITIONAL_DATA_FILE;
-        this.ALGORITHM_FILE = ALGORITHM_FILE;
         this.loadData();
     }
 

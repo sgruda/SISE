@@ -24,4 +24,5 @@ public abstract class Algorithm {
         this.states = new LinkedList<>();
         this.currentState = puzzles.clone();
     }
+    public abstract int[][] solve();
 }
