@@ -9,8 +9,8 @@ public class AlgorithmBFS extends Algorithm {
     private int directionCharIndex;
     private Pair<Integer, Integer> zeroCoordinates;
 
-    public AlgorithmBFS(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder){
-        super(COLUMN_NUMBER, ROW_NUMBER, puzzles);
+    public AlgorithmBFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder){
+        super(ROW_NUMBER, COLUMN_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
@@ -30,40 +30,57 @@ public class AlgorithmBFS extends Algorithm {
         }
         return null;
     }
+
+    private void printPuzzle(int [][] tab){
+        for(int [] b : tab){
+            for(int element : b){
+                System.out.print(element+" ");
+            }
+            System.out.println();
+        }
+    }
+
     private boolean isSolved() {
-        int i = 0;
+        int i = 1;
         for(int[] b : super.getCurrentState()) {
             for(int b2 : b) {
-                if(b2 != i) {
-                    return super.getCurrentState()[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0 ?  true :  false;
+                if(b2 == i) {
+                    i++;
+                    if(i == 16){
+                        if(super.getCurrentState()[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0){
+                            return true;
+                        }
+                    }
+                }else{
+                    return false;
                 }
-                i++;
             }
         }
         return true;
     }
+
     private boolean canMoved(Direction direction) {
         switch (direction) {
             case up: {
-                if (zeroCoordinates.snd == super.getROW_NUMBER()) {
-                    return false;
-                }
-                return true;
-            }
-            case down: {
-                if (zeroCoordinates.snd == 0) {
-                    return false;
-                }
-                return true;
-            }
-            case left: {
                 if (zeroCoordinates.fst == 0) {
                     return false;
                 }
                 return true;
             }
+            case down: {
+                if (zeroCoordinates.fst == super.getROW_NUMBER() - 1) {
+                    return false;
+                }
+                return true;
+            }
+            case left: {
+                if (zeroCoordinates.snd == 0) {
+                    return false;
+                }
+                return true;
+            }
             case right: {
-                if (zeroCoordinates.fst == super.getCOLUMN_NUMBER()) {
+                if (zeroCoordinates.snd == super.getCOLUMN_NUMBER() - 1) {
                     return false;
                 }
                 return true;
@@ -71,31 +88,34 @@ public class AlgorithmBFS extends Algorithm {
         }
         return  false;
     }
+
     private int[][] move(Direction direction) {
         super.getStates().add(super.getCurrentState());
+        printPuzzle(super.getCurrentState());
         int[][] newState = super.getCurrentState().clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
-
+        System.out.println(direction);
         switch (direction) {
             case up: {
-                newX = zeroCoordinates.fst;
-                newY = zeroCoordinates.snd + 1;
-                break;
-            }
-            case down: {
-                newX = zeroCoordinates.fst;
-                newY = zeroCoordinates.snd - 1;
-                break;
-            }
-            case left: {
                 newX = zeroCoordinates.fst - 1;
                 newY = zeroCoordinates.snd;
                 break;
             }
-            case right: {
+            case down: {
                 newX = zeroCoordinates.fst + 1;
                 newY = zeroCoordinates.snd;
+                break;
+            }
+            case left: {
+                System.out.println(zeroCoordinates.fst + ", " + zeroCoordinates.snd);
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd - 1;
+                break;
+            }
+            case right: {
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd + 1;
                 break;
             }
         }
@@ -104,6 +124,7 @@ public class AlgorithmBFS extends Algorithm {
         zeroCoordinates = new Pair<>(newX, newY);
         return newState;
     }
+
     private Direction getDirectionToMove() { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
         directionCharIndex++;
         if(directionCharIndex == searchOrder.length()) {
@@ -123,11 +144,11 @@ public class AlgorithmBFS extends Algorithm {
         }
     }
     public int[][] solve() {
-        Direction direction;
+        Direction direction = getDirectionToMove();
         while (!isSolved()){
-            direction = getDirectionToMove();
             if(canMoved(direction))
                 super.setCurrentState(move(direction));
+            else direction = getDirectionToMove();
         }
         return super.getCurrentState();
     }
