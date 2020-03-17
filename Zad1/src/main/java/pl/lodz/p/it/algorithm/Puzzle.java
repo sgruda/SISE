@@ -18,13 +18,24 @@ public class Puzzle {
             return true;
         if (!(o instanceof Puzzle))
             return false;
-        Puzzle puzzle1 = (Puzzle) o;
-        return Arrays.equals(puzzle, puzzle1.puzzle);
+        Puzzle puzzleToCompare = (Puzzle) o;
+        for(int i = 0; i < puzzle.length; i++) {
+            for(int j =0; j < puzzle[i].length; j++)
+                if(puzzle[i][j] != puzzleToCompare.getPuzzle()[i][j])
+                    return false;
+        }
+        return true;
     }
 
     @Override
     public Puzzle clone() {
-        return new Puzzle(Arrays.copyOf(puzzle, puzzle.length));
+        int ret[][] = new int[puzzle.length][];
+        int i = 0;
+        for(int[] row : puzzle) {
+            ret[i] = Arrays.copyOf(row, row.length);
+            i++;
+        }
+        return new Puzzle(ret);
     }
 
     public void printPuzzle(){
