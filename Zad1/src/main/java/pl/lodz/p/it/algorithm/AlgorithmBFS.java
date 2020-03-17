@@ -8,12 +8,14 @@ public class AlgorithmBFS extends Algorithm {
     private final String searchOrder;
     private int directionCharIndex;
     private Pair<Integer, Integer> zeroCoordinates;
+    private boolean repeatedState;
 
     public AlgorithmBFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder){
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
         zeroCoordinates = locateZero(puzzles);
         directionCharIndex = -1;
+        repeatedState = false;
     }
     private Pair<Integer, Integer> locateZero(int[][] tab) {
         int i = 0;
@@ -122,6 +124,7 @@ public class AlgorithmBFS extends Algorithm {
         newState.getPuzzle()[zeroCoordinates.fst][zeroCoordinates.snd] = newState.getPuzzle()[newX][newY];
         newState.getPuzzle()[newX][newY] = 0;
         if(super.statesContains(newState)) {
+            repeatedState = true;
             return getCurrentState();
         }
         else {
@@ -151,8 +154,14 @@ public class AlgorithmBFS extends Algorithm {
     public int[][] solve() {
         Direction direction = getDirectionToMove();
         while (!isSolved()){
-            if(canMoved(direction))
-                super.setCurrentState(move(direction));
+            if(canMoved(direction)) {
+                Puzzle puzzle = move(direction);
+                if(repeatedState) {
+                    repeatedState = false;
+                    direction = getDirectionToMove();
+                }
+                super.setCurrentState(puzzle);
+            }
             else direction = getDirectionToMove();
         }
         return super.getCurrentState().getPuzzle();
