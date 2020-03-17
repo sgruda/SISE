@@ -25,3 +25,7 @@ hs_err_pid*
 Zad1/.idea/
 
 Zad1/Zadanie1.iml
+
+Zad1/target/
+
+Zad1/utilsJAR/ukladanki/
