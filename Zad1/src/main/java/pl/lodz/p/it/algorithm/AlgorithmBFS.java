@@ -42,12 +42,12 @@ public class AlgorithmBFS extends Algorithm {
 
     private boolean isSolved() {
         int i = 1;
-        for(int[] b : super.getCurrentState()) {
+        for(int[] b : super.getCurrentState().getPuzzle()) {
             for(int b2 : b) {
                 if(b2 == i) {
                     i++;
                     if(i == 16){
-                        if(super.getCurrentState()[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0){
+                        if(super.getCurrentState().getPuzzle()[super.getROW_NUMBER()-1][super.getCOLUMN_NUMBER()-1] == 0){
                             return true;
                         }
                     }
@@ -89,10 +89,10 @@ public class AlgorithmBFS extends Algorithm {
         return  false;
     }
 
-    private int[][] move(Direction direction) {
+    private Puzzle move(Direction direction) {
         super.getStates().add(super.getCurrentState());
-        printPuzzle(super.getCurrentState());
-        int[][] newState = super.getCurrentState().clone();
+        super.getCurrentState().printPuzzle();
+        Puzzle newState = super.getCurrentState().clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
         System.out.println(direction);
@@ -119,10 +119,10 @@ public class AlgorithmBFS extends Algorithm {
                 break;
             }
         }
-        newState[zeroCoordinates.fst][zeroCoordinates.snd] = newState[newX][newY];
-        newState[newX][newY] = 0;
+        newState.getPuzzle()[zeroCoordinates.fst][zeroCoordinates.snd] = newState.getPuzzle()[newX][newY];
+        newState.getPuzzle()[newX][newY] = 0;
         if(super.statesContains(newState)) {
-            return  getCurrentState();
+            return getCurrentState();
         }
         else {
             zeroCoordinates = new Pair<>(newX, newY);
@@ -155,6 +155,6 @@ public class AlgorithmBFS extends Algorithm {
                 super.setCurrentState(move(direction));
             else direction = getDirectionToMove();
         }
-        return super.getCurrentState();
+        return super.getCurrentState().getPuzzle();
     }
 }
