@@ -25,4 +25,22 @@ public abstract class Algorithm {
         this.currentState = puzzles.clone();
     }
     public abstract int[][] solve();
+    protected boolean statesContains(int [][] stateToCheck) {
+        for (int [][] state : states) {
+            if(isEquals(stateToCheck, state)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean isEquals(int [][] stateToCheck, int [][] pattern) {
+        for (int i = 0; i < stateToCheck.length; i++) {
+            for(int j = 0; j < stateToCheck.length; j++) {
+                if(stateToCheck[i][j] != pattern[i][j] ) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

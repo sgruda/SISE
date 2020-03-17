@@ -121,8 +121,13 @@ public class AlgorithmBFS extends Algorithm {
         }
         newState[zeroCoordinates.fst][zeroCoordinates.snd] = newState[newX][newY];
         newState[newX][newY] = 0;
-        zeroCoordinates = new Pair<>(newX, newY);
-        return newState;
+        if(super.statesContains(newState)) {
+            return  getCurrentState();
+        }
+        else {
+            zeroCoordinates = new Pair<>(newX, newY);
+            return newState;
+        }
     }
 
     private Direction getDirectionToMove() { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
