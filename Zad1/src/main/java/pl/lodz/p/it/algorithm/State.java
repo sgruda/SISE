@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class State {
     private int [][] puzzle;
     private boolean visited;
@@ -40,7 +41,7 @@ public class State {
             ret[i] = Arrays.copyOf(row, row.length);
             i++;
         }
-        return new State(ret);
+        return new State(ret, this.visited);
     }
 
     public void printPuzzle(){
