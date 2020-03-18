@@ -11,21 +11,12 @@ import java.util.Arrays;
 @Setter
 public class State {
     private int [][] puzzle;
-    private boolean visited;
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
     private Pair<Integer, Integer> zeroCoordinates;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
         this.puzzle = puzzle;
-        this.visited = false;
-        this.COLUMN_NUMBER = COLUMN_NUMBER;
-        this.ROW_NUMBER = ROW_NUMBER;
-        this.zeroCoordinates = locateZero();
-    }
-    public State(int[][] puzzle, boolean visited, int COLUMN_NUMBER, int ROW_NUMBER) {
-        this.puzzle = puzzle;
-        this.visited = visited;
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
         this.zeroCoordinates = locateZero();
@@ -132,7 +123,7 @@ public class State {
             ret[i] = Arrays.copyOf(row, row.length);
             i++;
         }
-        return new State(ret, this.visited, getCOLUMN_NUMBER(), getROW_NUMBER());
+        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER());
     }
 
     public void printPuzzle(){
