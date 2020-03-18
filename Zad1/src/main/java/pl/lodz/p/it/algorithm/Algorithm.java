@@ -8,25 +8,18 @@ import java.util.Queue;
 
 @Getter
 public abstract class Algorithm {
-    private final int COLUMN_NUMBER;
-    private final int ROW_NUMBER;
-    private final State puzzles;
+    @Setter
+    private State currentState;
 
     @Setter
     private Queue<State> visitedStates;
     @Setter
     private Queue<State> statesToVisit;
-    @Setter
-    private State currentState;
 
     public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
-        this.COLUMN_NUMBER = COLUMN_NUMBER;
-        this.ROW_NUMBER = ROW_NUMBER;
-        this.puzzles = new State(puzzles);
-
         this.visitedStates = new LinkedList<>();
         this.statesToVisit = new LinkedList<>();
-        this.currentState = this.puzzles.clone();
+        this.currentState = new State(puzzles, COLUMN_NUMBER, ROW_NUMBER);
     }
     private boolean isSolved() {
         int i = 1;
@@ -35,7 +28,8 @@ public abstract class Algorithm {
                 if(b2 == i) {
                     i++;
                     if(i == 16){
-                        if(getCurrentState().getPuzzle()[getROW_NUMBER()-1][getCOLUMN_NUMBER()-1] == 0){
+                        int[][] puzzleTemp = getCurrentState().getPuzzle();
+                        if(puzzleTemp[getCurrentState().getROW_NUMBER()-1][getCurrentState().getCOLUMN_NUMBER()-1] == 0){
                             return true;
                         }
                     }
