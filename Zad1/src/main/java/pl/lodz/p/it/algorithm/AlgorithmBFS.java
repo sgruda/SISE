@@ -29,6 +29,7 @@ public class AlgorithmBFS extends Algorithm {
                 }
             }
         } while(!super.isSolved() && !this.getStatesToVisit().isEmpty());
+        super.getCurrentState().printPuzzle();
         return super.getCurrentState().getPuzzle();
     }
     private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
