@@ -28,6 +28,24 @@ public abstract class Algorithm {
         this.statesToVisit = new LinkedList<>();
         this.currentState = this.puzzles.clone();
     }
+    private boolean isSolved() {
+        int i = 1;
+        for(int[] b : getCurrentState().getPuzzle()) {
+            for(int b2 : b) {
+                if(b2 == i) {
+                    i++;
+                    if(i == 16){
+                        if(getCurrentState().getPuzzle()[getROW_NUMBER()-1][getCOLUMN_NUMBER()-1] == 0){
+                            return true;
+                        }
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public abstract int[][] solve();
     protected boolean statesContains(State stateToCheck) {
         for (State state : visitedStates) {
