@@ -21,7 +21,7 @@ public abstract class Algorithm {
         this.statesToVisit = new LinkedList<>();
         this.currentState = new State(puzzles, COLUMN_NUMBER, ROW_NUMBER);
     }
-    private boolean isSolved() {
+    protected boolean isSolved() {
         int i = 1;
         for(int[] b : getCurrentState().getPuzzle()) {
             for(int b2 : b) {
@@ -41,7 +41,7 @@ public abstract class Algorithm {
         return true;
     }
     public abstract int[][] solve();
-    protected boolean statesContains(State stateToCheck) {
+    protected boolean visitedStatesContains(State stateToCheck) {
         for (State state : visitedStates) {
 //            System.out.println("w historii");
 //            state.printPuzzle();

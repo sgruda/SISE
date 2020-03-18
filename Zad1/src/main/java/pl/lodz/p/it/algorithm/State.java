@@ -1,7 +1,6 @@
 package pl.lodz.p.it.algorithm;
 
 import com.sun.tools.javac.util.Pair;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
@@ -45,6 +44,41 @@ public class State {
             i++;
         }
         return null;
+    }
+    public State move(Direction direction) {
+        State newState = this.clone();
+        int newX = zeroCoordinates.fst;
+        int newY = zeroCoordinates.snd;
+        System.out.println(direction);
+        switch (direction) {
+            case up: {
+                newX = zeroCoordinates.fst - 1;
+                newY = zeroCoordinates.snd;
+                break;
+            }
+            case down: {
+                newX = zeroCoordinates.fst + 1;
+                newY = zeroCoordinates.snd;
+                break;
+            }
+            case left: {
+                System.out.println(zeroCoordinates.fst + ", " + zeroCoordinates.snd);
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd - 1;
+                break;
+            }
+            case right: {
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd + 1;
+                break;
+            }
+        }
+        newState.getPuzzle()[zeroCoordinates.fst][zeroCoordinates.snd] = newState.getPuzzle()[newX][newY];
+        newState.getPuzzle()[newX][newY] = 0;
+
+        zeroCoordinates = new Pair<>(newX, newY);
+        return newState;
+
     }
     public boolean canMoved(Direction direction) {
         switch (direction) {
