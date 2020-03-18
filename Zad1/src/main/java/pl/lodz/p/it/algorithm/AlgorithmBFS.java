@@ -91,10 +91,11 @@ public class AlgorithmBFS extends Algorithm {
         return  false;
     }
 
-    private Puzzle move(Direction direction) {
-        super.getStates().add(super.getCurrentState());
+    private State move(Direction direction) {
+        super.getCurrentState().setVisited(true);
+        super.getVisitedStates().add(super.getCurrentState());
         super.getCurrentState().printPuzzle();
-        Puzzle newState = super.getCurrentState().clone();
+        State newState = super.getCurrentState().clone();
         int newX = zeroCoordinates.fst;
         int newY = zeroCoordinates.snd;
         System.out.println(direction);
@@ -153,17 +154,20 @@ public class AlgorithmBFS extends Algorithm {
     }
     public int[][] solve() {
         Direction direction = getDirectionToMove();
-        while (!isSolved()){
+        do{
             if(canMoved(direction)) {
-                Puzzle puzzle = move(direction);
+                State state = move(direction);
                 if(repeatedState) {
                     repeatedState = false;
                     direction = getDirectionToMove();
                 }
-                super.setCurrentState(puzzle);
+//                if(state.isVisited()) {
+//                    direction = getDirectionToMove();
+//                }
+                super.setCurrentState(state);
             }
             else direction = getDirectionToMove();
-        }
+        } while (!isSolved() && !super.getStatesToVisit().isEmpty());
         return super.getCurrentState().getPuzzle();
     }
 }

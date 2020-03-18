@@ -6,36 +6,41 @@ import lombok.Setter;
 
 import java.util.Arrays;
 
-@AllArgsConstructor
 @Getter
 @Setter
-public class Puzzle {
+public class State {
     private int [][] puzzle;
+    private boolean visited;
+
+    public State(int[][] puzzle) {
+        this.puzzle = puzzle;
+        this.visited = false;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof Puzzle))
+        if (!(o instanceof State))
             return false;
-        Puzzle puzzleToCompare = (Puzzle) o;
+        State stateToCompare = (State) o;
         for(int i = 0; i < puzzle.length; i++) {
             for(int j =0; j < puzzle[i].length; j++)
-                if(puzzle[i][j] != puzzleToCompare.getPuzzle()[i][j])
+                if(puzzle[i][j] != stateToCompare.getPuzzle()[i][j])
                     return false;
         }
         return true;
     }
 
     @Override
-    public Puzzle clone() {
+    public State clone() {
         int ret[][] = new int[puzzle.length][];
         int i = 0;
         for(int[] row : puzzle) {
             ret[i] = Arrays.copyOf(row, row.length);
             i++;
         }
-        return new Puzzle(ret);
+        return new State(ret);
     }
 
     public void printPuzzle(){

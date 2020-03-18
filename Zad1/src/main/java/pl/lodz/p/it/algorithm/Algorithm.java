@@ -4,29 +4,33 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 @Getter
 public abstract class Algorithm {
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
-    private final Puzzle puzzles;
+    private final State puzzles;
 
     @Setter
-    private LinkedList<Puzzle> states;
+    private Queue<State> visitedStates;
     @Setter
-    private Puzzle currentState;
+    private Queue<State> statesToVisit;
+    @Setter
+    private State currentState;
 
     public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
-        this.puzzles = new Puzzle(puzzles);
+        this.puzzles = new State(puzzles);
 
-        this.states = new LinkedList<>();
+        this.visitedStates = new LinkedList<>();
+        this.statesToVisit = new LinkedList<>();
         this.currentState = this.puzzles.clone();
     }
     public abstract int[][] solve();
-    protected boolean statesContains(Puzzle stateToCheck) {
-        for (Puzzle state : states) {
+    protected boolean statesContains(State stateToCheck) {
+        for (State state : visitedStates) {
 //            System.out.println("w historii");
 //            state.printPuzzle();
             if(state.equals(stateToCheck)) {
