@@ -6,40 +6,32 @@ import pl.lodz.p.it.enums.Direction;
 public class AlgorithmBFS extends Algorithm {
 
     private final String searchOrder;
-    private int directionCharIndex;
+//    private int directionCharIndex;
 
     public AlgorithmBFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder){
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
-        directionCharIndex = -1;
+//        directionCharIndex = -1;
     }
 
     @Override
     public int[][] solve() {
         this.getStatesToVisit().add(super.getCurrentState());
-        Direction direction = getDirectionToMove();
         do {
             State state = this.getStatesToVisit().poll();
             this.getVisitedStates().add(state);
 
-            //for (int i=0; i<this.searchOrder.length(); i++) {
-                if(state.canMoved(direction)) {
-
-                    State newState = state.move(direction);
+            for (int directionCharIndex = 0; directionCharIndex < searchOrder.length(); directionCharIndex++) {
+                if(state.canMoved(this.getDirectionToMove(directionCharIndex))) {
+                    State newState = state.move(this.getDirectionToMove(directionCharIndex));
                     if(!super.visitedStatesContains(newState))
                         this.getStatesToVisit().add(newState);
-                } else {
-                    direction = getDirectionToMove();
                 }
-            //}
+            }
         } while(!super.isSolved() && !this.getStatesToVisit().isEmpty());
         return super.getCurrentState().getPuzzle();
     }
-    private Direction getDirectionToMove() { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
-        directionCharIndex++;
-        if(directionCharIndex == searchOrder.length()) {
-            directionCharIndex = 0;
-        }
+    private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
         switch (searchOrder.charAt(directionCharIndex)) {
             case 'U':
                 return Direction.up;
