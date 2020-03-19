@@ -21,50 +21,27 @@ public class AlgorithmBFS extends Algorithm {
         while(!this.getStatesToVisit().isEmpty() && !this.isSolved()){
             State newState = this.getStatesToVisit().poll();
             this.getVisitedStates().add(newState);
-
-            if(this.isSolved()){
-                System.out.println("Powinno być już rozwiązane");
-                this.setCurrentState(newState);
-                this.getCurrentState().printPuzzle();
-                return super.getCurrentState().getPuzzle();
-            }
-
             for(int i = 0 ; i < this.searchOrder.length();i ++){
                 if(newState.canMoved(this.searchOrderArray[i])){
                     State movedState = new State(newState);
-                    System.out.println("Przed przesunięciem");
-                    movedState.printPuzzle();
                     movedState.move(searchOrderArray[i]);
-                    System.out.println("Po przesunięciu");
-                    movedState.printPuzzle();
                     this.setCurrentState(movedState);
-                    System.out.println("Rozwiazane ? " + this.isSolved());
-                    this.getCurrentState().printPuzzle();
                     if(!this.getVisitedStates().contains(movedState)){
                         this.getStatesToVisit().add(movedState);
                     }
                     if(this.isSolved()){
-                        break;
+                        System.out.println(this.getCurrentState().getSolutionSteps());
+                        System.out.println(this.getCurrentState().getDepth());
+                        this.getCurrentState().printPuzzle();
+                        return super.getCurrentState().getPuzzle();
                     }
                 }
             }
         }
-        super.getCurrentState().printPuzzle();
-        return this.getCurrentState().getPuzzle();
-    }
 
-    private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
-        switch (searchOrder.charAt(directionCharIndex)) {
-            case 'U':
-                return Direction.up;
-            case 'D':
-                return Direction.down;
-            case 'L':
-                return Direction.left;
-            case 'R':
-                return Direction.right;
-            default:
-                return null;
-        }
+        System.out.println(this.getCurrentState().getSolutionSteps());
+        System.out.println(this.getCurrentState().getDepth());
+        this.getCurrentState().printPuzzle();
+        return this.getCurrentState().getPuzzle();
     }
 }

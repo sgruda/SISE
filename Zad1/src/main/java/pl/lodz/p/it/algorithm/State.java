@@ -3,9 +3,7 @@ package pl.lodz.p.it.algorithm;
 import com.sun.tools.javac.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
-import pl.lodz.p.it.enums.Direction;
 
-import java.util.Arrays;
 
 @Getter
 @Setter
@@ -13,97 +11,97 @@ public class State {
     private int [][] puzzle;
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
-    private int zeroX, zeroY;
+    private Pair<Integer, Integer> zeroCoordinates;
+    private String solutionSteps = "";
+    private int depth=0;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
         this.puzzle = puzzle;
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
-        locateZero();
+        this.zeroCoordinates = locateZero();
     }
 
     public State(State newState){
         this.COLUMN_NUMBER = newState.COLUMN_NUMBER;
         this.ROW_NUMBER = newState.ROW_NUMBER;
         this.puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
+        this.depth = newState.depth;
+        this.solutionSteps = newState.solutionSteps;
         for(int i=0; i<ROW_NUMBER; i++) {
             if (COLUMN_NUMBER >= 0) System.arraycopy(newState.puzzle[i], 0, puzzle[i], 0, COLUMN_NUMBER);
         }
-
-        locateZero();
-
+        this.zeroCoordinates = locateZero();
     }
-    private void  locateZero() {
+
+    private Pair<Integer, Integer> locateZero() {
         for(int i = 0 ; i < ROW_NUMBER; i++) {
             for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
                 if(puzzle[i][j] == 0) {
-                    this.zeroX = i;
-                    this.zeroY = j;
+                    return new Pair<>(i,j);
                 }
             }
         }
-    }
-
-    public void swapFields(int x1, int y1, int x2, int y2) {
-        int tmp = puzzle[x1][y1];
-        puzzle[x1][y1] = puzzle[x2][y2];
-        puzzle[x2][y2] = tmp;
-        locateZero();
+        return null;
     }
 
     public void move(String direction) {
-        this.printPuzzle();
+            solutionSteps+=direction;
+            depth++;
+            int newX = zeroCoordinates.fst;
+            int newY = zeroCoordinates.snd;
         switch (direction) {
             case "U": {
-                swapFields(zeroX,zeroY,zeroX -1 ,zeroY);
-                this.printPuzzle();
+                    newX = zeroCoordinates.fst - 1;
+                    newY = zeroCoordinates.snd;
                 break;
             }
             case "D": {
-                swapFields(zeroX,zeroY,zeroX + 1 ,zeroY);
-                this.printPuzzle();
+                newX = zeroCoordinates.fst + 1;
+                newY = zeroCoordinates.snd;
                 break;
             }
             case "L": {
-                swapFields(zeroX,zeroY,zeroX ,zeroY - 1);
-                this.printPuzzle();
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd - 1;
                 break;
             }
             case "R": {
-                swapFields(zeroX,zeroY,zeroX ,zeroY + 1);
-                this.printPuzzle();
+                newX = zeroCoordinates.fst;
+                newY = zeroCoordinates.snd + 1;
                 break;
             }
         }
+        int temp = puzzle[zeroCoordinates.fst][zeroCoordinates.snd];
+        puzzle[zeroCoordinates.fst][zeroCoordinates.snd] = puzzle[newX][newY];
+        puzzle[newX][newY] = temp;
+        this.zeroCoordinates = locateZero();
+
     }
     public boolean canMoved(String direction) {
         switch (direction) {
             case "U": {
-                if (zeroX == 0) {
+                if (zeroCoordinates.fst == 0) {
                     return false;
                 }
-                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
             case "D": {
-                if (zeroX == getROW_NUMBER() - 1) {
+                if (zeroCoordinates.fst == getROW_NUMBER() - 1) {
                     return false;
                 }
-                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
             case "L": {
-                if (zeroY == 0) {
+                if (zeroCoordinates.snd == 0) {
                     return false;
                 }
-                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
             case "R": {
-                if (zeroY == getCOLUMN_NUMBER() - 1) {
+                if (zeroCoordinates.snd == getCOLUMN_NUMBER() - 1) {
                     return false;
                 }
-                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
         }
@@ -124,16 +122,6 @@ public class State {
         return true;
     }
 
-    @Override
-    public State clone() {
-        int ret[][] = new int[puzzle.length][];
-        int i = 0;
-        for(int[] row : puzzle) {
-            ret[i] = Arrays.copyOf(row, row.length);
-            i++;
-        }
-        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER());
-    }
 
     public void printPuzzle(){
         for(int [] b : puzzle){
