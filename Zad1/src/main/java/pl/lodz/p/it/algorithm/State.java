@@ -1,19 +1,22 @@
 package pl.lodz.p.it.algorithm;
 
 import com.sun.tools.javac.util.Pair;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
 
-import java.util.Arrays;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class State {
     private int [][] puzzle;
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
     private Pair<Integer, Integer> zeroCoordinates;
+    private String solutionSteps = "";
+    private int depth=0;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
         this.puzzle = puzzle;
@@ -21,30 +24,27 @@ public class State {
         this.ROW_NUMBER = ROW_NUMBER;
         this.zeroCoordinates = locateZero();
     }
+
     private Pair<Integer, Integer> locateZero() {
-        int i = 0;
-        int j;
-        for(int[] tab : puzzle) {
-            j = 0;
-            for(int value : tab) {
-                if(value == 0) {
-                    return new Pair<>(i, j);
+        for(int i = 0 ; i < ROW_NUMBER; i++) {
+            for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
+                if(puzzle[i][j] == 0) {
+                    return new Pair<>(i,j);
                 }
-                j++;
             }
-            i++;
         }
         return null;
     }
-    public State move(Direction direction) {
-        State newState = this.clone();
-        int newX = zeroCoordinates.fst;
-        int newY = zeroCoordinates.snd;
-        System.out.println(direction);
+
+    public void move(Direction direction) {
+            solutionSteps += direction + " ";
+            depth++;
+            int newX = zeroCoordinates.fst;
+            int newY = zeroCoordinates.snd;
         switch (direction) {
             case up: {
-                newX = zeroCoordinates.fst - 1;
-                newY = zeroCoordinates.snd;
+                    newX = zeroCoordinates.fst - 1;
+                    newY = zeroCoordinates.snd;
                 break;
             }
             case down: {
@@ -53,7 +53,6 @@ public class State {
                 break;
             }
             case left: {
-                System.out.println(zeroCoordinates.fst + ", " + zeroCoordinates.snd);
                 newX = zeroCoordinates.fst;
                 newY = zeroCoordinates.snd - 1;
                 break;
@@ -64,11 +63,10 @@ public class State {
                 break;
             }
         }
-        newState.getPuzzle()[zeroCoordinates.fst][zeroCoordinates.snd] = newState.getPuzzle()[newX][newY];
-        newState.getPuzzle()[newX][newY] = 0;
-
-        zeroCoordinates = new Pair<>(newX, newY);
-        return newState;
+        int temp = puzzle[zeroCoordinates.fst][zeroCoordinates.snd];
+        puzzle[zeroCoordinates.fst][zeroCoordinates.snd] = puzzle[newX][newY];
+        puzzle[newX][newY] = temp;
+        this.zeroCoordinates = locateZero();
 
     }
     public boolean canMoved(Direction direction) {
@@ -114,18 +112,16 @@ public class State {
         }
         return true;
     }
-
     @Override
     public State clone() {
         int ret[][] = new int[puzzle.length][];
         int i = 0;
         for(int[] row : puzzle) {
-            ret[i] = Arrays.copyOf(row, row.length);
+            ret[i] = java.util.Arrays.copyOf(row, row.length);
             i++;
         }
-        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER());
+        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(), getDepth());
     }
-
     public void printPuzzle(){
         for(int [] b : puzzle){
             for(int element : b){
