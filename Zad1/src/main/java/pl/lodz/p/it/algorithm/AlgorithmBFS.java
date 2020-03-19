@@ -47,12 +47,16 @@ public class AlgorithmBFS extends Algorithm {
     private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
         switch (searchOrder.charAt(directionCharIndex)) {
             case 'U':
+            case 'u':
                 return Direction.up;
             case 'D':
+            case 'd':
                 return Direction.down;
             case 'L':
+            case 'l':
                 return Direction.left;
             case 'R':
+            case 'r':
                 return Direction.right;
             default:
                 return null;
