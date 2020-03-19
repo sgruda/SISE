@@ -4,43 +4,43 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 @Getter
 public abstract class Algorithm {
-    private final int COLUMN_NUMBER;
-    private final int ROW_NUMBER;
-    private final int[][] puzzles;
-
     @Setter
-    private LinkedList<int[][]> states;
+    private State currentState;
     @Setter
-    private int[][] currentState;
+    private Queue<State> visitedStates;
+    @Setter
+    private Queue<State> statesToVisit;
 
     public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
-        this.COLUMN_NUMBER = COLUMN_NUMBER;
-        this.ROW_NUMBER = ROW_NUMBER;
-        this.puzzles = puzzles;
+        this.visitedStates = new LinkedList<>();
+        this.statesToVisit = new LinkedList<>();
+        this.currentState = new State(puzzles, COLUMN_NUMBER, ROW_NUMBER);
+    }
 
-        this.states = new LinkedList<>();
-        this.currentState = puzzles.clone();
-    }
-    public abstract int[][] solve();
-    protected boolean statesContains(int [][] stateToCheck) {
-        for (int [][] state : states) {
-            if(isEquals(stateToCheck, state)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    private boolean isEquals(int [][] stateToCheck, int [][] pattern) {
-        for (int i = 0; i < stateToCheck.length; i++) {
-            for(int j = 0; j < stateToCheck.length; j++) {
-                if(stateToCheck[i][j] != pattern[i][j] ) {
+    protected boolean isSolved() {
+        int i = 1;
+        for (int[] b : getCurrentState().getPuzzle()) {
+            for (int b2 : b) {
+                if (b2 == i) {
+                    if (i == 15) {
+                        int[][] puzzleTemp = getCurrentState().getPuzzle();
+                        if (puzzleTemp[getCurrentState().getROW_NUMBER() - 1][getCurrentState().getCOLUMN_NUMBER() - 1] == 0) {
+                            return true;
+                        }
+                    }
+                    i++;
+                } else {
                     return false;
                 }
             }
         }
         return true;
     }
+
+    public abstract int[][] solve();
+
 }
