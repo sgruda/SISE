@@ -13,88 +13,97 @@ public class State {
     private int [][] puzzle;
     private final int COLUMN_NUMBER;
     private final int ROW_NUMBER;
-    private Pair<Integer, Integer> zeroCoordinates;
+    private int zeroX, zeroY;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
         this.puzzle = puzzle;
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
-        this.zeroCoordinates = locateZero();
+        locateZero();
     }
-    private Pair<Integer, Integer> locateZero() {
-        int i = 0;
-        int j;
-        for(int[] tab : puzzle) {
-            j = 0;
-            for(int value : tab) {
-                if(value == 0) {
-                    return new Pair<>(i, j);
-                }
-                j++;
-            }
-            i++;
-        }
-        return null;
-    }
-    public State move(Direction direction) {
-        State newState = this.clone();
-        int newX = zeroCoordinates.fst;
-        int newY = zeroCoordinates.snd;
-        System.out.println(direction);
-        switch (direction) {
-            case up: {
-                newX = zeroCoordinates.fst - 1;
-                newY = zeroCoordinates.snd;
-                break;
-            }
-            case down: {
-                newX = zeroCoordinates.fst + 1;
-                newY = zeroCoordinates.snd;
-                break;
-            }
-            case left: {
-                System.out.println(zeroCoordinates.fst + ", " + zeroCoordinates.snd);
-                newX = zeroCoordinates.fst;
-                newY = zeroCoordinates.snd - 1;
-                break;
-            }
-            case right: {
-                newX = zeroCoordinates.fst;
-                newY = zeroCoordinates.snd + 1;
-                break;
-            }
-        }
-        newState.getPuzzle()[zeroCoordinates.fst][zeroCoordinates.snd] = newState.getPuzzle()[newX][newY];
-        newState.getPuzzle()[newX][newY] = 0;
 
-        zeroCoordinates = new Pair<>(newX, newY);
-        return newState;
+    public State(State newState){
+        this.COLUMN_NUMBER = newState.COLUMN_NUMBER;
+        this.ROW_NUMBER = newState.ROW_NUMBER;
+        this.puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
+        for(int i=0; i<ROW_NUMBER; i++) {
+            if (COLUMN_NUMBER >= 0) System.arraycopy(newState.puzzle[i], 0, puzzle[i], 0, COLUMN_NUMBER);
+        }
+
+        locateZero();
 
     }
-    public boolean canMoved(Direction direction) {
+    private void  locateZero() {
+        for(int i = 0 ; i < ROW_NUMBER; i++) {
+            for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
+                if(puzzle[i][j] == 0) {
+                    this.zeroX = i;
+                    this.zeroY = j;
+                }
+            }
+        }
+    }
+
+    public void swapFields(int x1, int y1, int x2, int y2) {
+        int tmp = puzzle[x1][y1];
+        puzzle[x1][y1] = puzzle[x2][y2];
+        puzzle[x2][y2] = tmp;
+        locateZero();
+    }
+
+    public void move(String direction) {
+        this.printPuzzle();
         switch (direction) {
-            case up: {
-                if (zeroCoordinates.fst == 0) {
+            case "U": {
+                swapFields(zeroX,zeroY,zeroX -1 ,zeroY);
+                this.printPuzzle();
+                break;
+            }
+            case "D": {
+                swapFields(zeroX,zeroY,zeroX + 1 ,zeroY);
+                this.printPuzzle();
+                break;
+            }
+            case "L": {
+                swapFields(zeroX,zeroY,zeroX ,zeroY - 1);
+                this.printPuzzle();
+                break;
+            }
+            case "R": {
+                swapFields(zeroX,zeroY,zeroX ,zeroY + 1);
+                this.printPuzzle();
+                break;
+            }
+        }
+    }
+    public boolean canMoved(String direction) {
+        switch (direction) {
+            case "U": {
+                if (zeroX == 0) {
                     return false;
                 }
+                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
-            case down: {
-                if (zeroCoordinates.fst == getROW_NUMBER() - 1) {
+            case "D": {
+                if (zeroX == getROW_NUMBER() - 1) {
                     return false;
                 }
+                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
-            case left: {
-                if (zeroCoordinates.snd == 0) {
+            case "L": {
+                if (zeroY == 0) {
                     return false;
                 }
+                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
-            case right: {
-                if (zeroCoordinates.snd == getCOLUMN_NUMBER() - 1) {
+            case "R": {
+                if (zeroY == getCOLUMN_NUMBER() - 1) {
                     return false;
                 }
+                System.out.println("A teraz idziemy w =" + direction);
                 return true;
             }
         }
