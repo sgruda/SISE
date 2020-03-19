@@ -1,6 +1,7 @@
 package pl.lodz.p.it.algorithm;
 
 import com.sun.tools.javac.util.Pair;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
@@ -8,6 +9,7 @@ import pl.lodz.p.it.enums.Direction;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class State {
     private int [][] puzzle;
     private final int COLUMN_NUMBER;
@@ -20,18 +22,6 @@ public class State {
         this.puzzle = puzzle;
         this.COLUMN_NUMBER = COLUMN_NUMBER;
         this.ROW_NUMBER = ROW_NUMBER;
-        this.zeroCoordinates = locateZero();
-    }
-
-    public State(State newState){
-        this.COLUMN_NUMBER = newState.COLUMN_NUMBER;
-        this.ROW_NUMBER = newState.ROW_NUMBER;
-        this.puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
-        this.depth = newState.depth;
-        this.solutionSteps = newState.solutionSteps;
-        for(int i=0; i<ROW_NUMBER; i++) {
-            if (COLUMN_NUMBER >= 0) System.arraycopy(newState.puzzle[i], 0, puzzle[i], 0, COLUMN_NUMBER);
-        }
         this.zeroCoordinates = locateZero();
     }
 
@@ -122,7 +112,16 @@ public class State {
         }
         return true;
     }
-
+    @Override
+    public State clone() {
+        int ret[][] = new int[puzzle.length][];
+        int i = 0;
+        for(int[] row : puzzle) {
+            ret[i] = java.util.Arrays.copyOf(row, row.length);
+            i++;
+        }
+        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(), getDepth());
+    }
     public void printPuzzle(){
         for(int [] b : puzzle){
             for(int element : b){

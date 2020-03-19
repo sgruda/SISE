@@ -22,7 +22,7 @@ public class AlgorithmBFS extends Algorithm {
             this.getVisitedStates().add(newState);
             for (int directionCharIndex = 0; directionCharIndex < searchOrder.length(); directionCharIndex++) {
                 if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
-                    State movedState = new State(newState);
+                    State movedState = newState.clone();
                     movedState.move(this.getDirectionToMove(directionCharIndex));
                     this.setCurrentState(movedState);
                     if (!this.getVisitedStates().contains(movedState)) {
@@ -44,7 +44,7 @@ public class AlgorithmBFS extends Algorithm {
         return this.getCurrentState().getPuzzle();
     }
 
-    private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
+    private Direction getDirectionToMove(int directionCharIndex) {
         switch (searchOrder.charAt(directionCharIndex)) {
             case 'U':
             case 'u':
