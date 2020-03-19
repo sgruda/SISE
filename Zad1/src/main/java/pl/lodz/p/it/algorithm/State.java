@@ -3,6 +3,7 @@ package pl.lodz.p.it.algorithm;
 import com.sun.tools.javac.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.it.enums.Direction;
 
 
 @Getter
@@ -45,28 +46,28 @@ public class State {
         return null;
     }
 
-    public void move(String direction) {
+    public void move(Direction direction) {
             solutionSteps+=direction;
             depth++;
             int newX = zeroCoordinates.fst;
             int newY = zeroCoordinates.snd;
         switch (direction) {
-            case "U": {
+            case up: {
                     newX = zeroCoordinates.fst - 1;
                     newY = zeroCoordinates.snd;
                 break;
             }
-            case "D": {
+        case   down: {
                 newX = zeroCoordinates.fst + 1;
                 newY = zeroCoordinates.snd;
                 break;
             }
-            case "L": {
+            case left: {
                 newX = zeroCoordinates.fst;
                 newY = zeroCoordinates.snd - 1;
                 break;
             }
-            case "R": {
+            case right: {
                 newX = zeroCoordinates.fst;
                 newY = zeroCoordinates.snd + 1;
                 break;
@@ -78,27 +79,27 @@ public class State {
         this.zeroCoordinates = locateZero();
 
     }
-    public boolean canMoved(String direction) {
+    public boolean canMoved(Direction direction) {
         switch (direction) {
-            case "U": {
+            case up: {
                 if (zeroCoordinates.fst == 0) {
                     return false;
                 }
                 return true;
             }
-            case "D": {
+            case down: {
                 if (zeroCoordinates.fst == getROW_NUMBER() - 1) {
                     return false;
                 }
                 return true;
             }
-            case "L": {
+            case left: {
                 if (zeroCoordinates.snd == 0) {
                     return false;
                 }
                 return true;
             }
-            case "R": {
+            case right: {
                 if (zeroCoordinates.snd == getCOLUMN_NUMBER() - 1) {
                     return false;
                 }
@@ -121,7 +122,6 @@ public class State {
         }
         return true;
     }
-
 
     public void printPuzzle(){
         for(int [] b : puzzle){

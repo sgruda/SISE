@@ -8,28 +8,27 @@ public class AlgorithmBFS extends Algorithm {
     private String[] searchOrderArray;
 
 
-
-    public AlgorithmBFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder){
+    public AlgorithmBFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder) {
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles);
         this.searchOrder = searchOrder.toUpperCase();
         this.searchOrderArray = searchOrder.split("");
     }
 
     @Override
-    public int[][] solve(){
+    public int[][] solve() {
         this.getStatesToVisit().add(super.getCurrentState());
-        while(!this.getStatesToVisit().isEmpty() && !this.isSolved()){
+        while (!this.getStatesToVisit().isEmpty() && !this.isSolved()) {
             State newState = this.getStatesToVisit().poll();
             this.getVisitedStates().add(newState);
-            for(int i = 0 ; i < this.searchOrder.length();i ++){
-                if(newState.canMoved(this.searchOrderArray[i])){
+            for (int directionCharIndex = 0; directionCharIndex < searchOrder.length(); directionCharIndex++) {
+                if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
                     State movedState = new State(newState);
-                    movedState.move(searchOrderArray[i]);
+                    movedState.move(this.getDirectionToMove(directionCharIndex));
                     this.setCurrentState(movedState);
-                    if(!this.getVisitedStates().contains(movedState)){
+                    if (!this.getVisitedStates().contains(movedState)) {
                         this.getStatesToVisit().add(movedState);
                     }
-                    if(this.isSolved()){
+                    if (this.isSolved()) {
                         System.out.println(this.getCurrentState().getSolutionSteps());
                         System.out.println(this.getCurrentState().getDepth());
                         this.getCurrentState().printPuzzle();
@@ -43,5 +42,20 @@ public class AlgorithmBFS extends Algorithm {
         System.out.println(this.getCurrentState().getDepth());
         this.getCurrentState().printPuzzle();
         return this.getCurrentState().getPuzzle();
+    }
+
+    private Direction getDirectionToMove(int directionCharIndex) { //TO DO ogarnac czy nie pomyliłem bfs z dfs, przechodzi po tych kierunkach systematycznie
+        switch (searchOrder.charAt(directionCharIndex)) {
+            case 'U':
+                return Direction.up;
+            case 'D':
+                return Direction.down;
+            case 'L':
+                return Direction.left;
+            case 'R':
+                return Direction.right;
+            default:
+                return null;
+        }
     }
 }
