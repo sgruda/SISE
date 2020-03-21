@@ -48,18 +48,28 @@ public class FileService {
             e.printStackTrace();
         }
     }
-    public void saveData(final int[][] solvedPuzzle) {
+    public void saveData(final int[][] solvedPuzzle,String statistics,long executionTime) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < solvedPuzzle.length; i++) {
-            for (int j = 0; j < solvedPuzzle.length; j++) {
+            for (int j = 0; j < solvedPuzzle[0].length; j++) {
                 builder.append(solvedPuzzle[i][j] + "");
                 if (j < solvedPuzzle.length - 1)
                     builder.append(" ");
             }
             builder.append("\n");
         }
+        StringBuilder statisticsBuilder = new StringBuilder();
+        statisticsBuilder.append(statistics);
+        statisticsBuilder.append(executionTime/1000.0 + "\n");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.SOLVED_FILE)))) {
             writer.write(builder.toString());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.ADDITIONAL_DATA_FILE)))) {
+            writer.write(statisticsBuilder.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

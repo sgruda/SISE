@@ -1,5 +1,6 @@
 package pl.lodz.p.it.algorithm;
 
+import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
@@ -15,7 +16,11 @@ public abstract class Algorithm {
     private Queue<State> visitedStates;
     @Setter
     private Queue<State> statesToVisit;
+
     private String searchOrder;
+    @Setter
+    private long executionTime;
+    private String statistics = "";
 
     public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder) {
         this.visitedStates = new LinkedList<>();
@@ -45,6 +50,28 @@ public abstract class Algorithm {
         }
         return true;
     }
+
+        public void generateStatistics(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.currentState.getSolutionSteps().length()+"\n");
+        sb.append(this.visitedStates.size()+"\n");
+        sb.append(this.visitedStates.size()+"\n");
+        sb.append(this.currentState.getDepth()+"\n");
+        statistics =  sb.toString();
+
+    }
+
+    public int[][] solveWithTimeCalculation()
+    {
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        int[][] result = this.solve();
+        stopwatch.stop();
+        this.setExecutionTime(stopwatch.elapsed().toMillis());
+        return result;
+    }
+
+
+
     protected Direction getDirectionToMove(int directionCharIndex) {
         switch (searchOrder.charAt(directionCharIndex)) {
             case 'U':

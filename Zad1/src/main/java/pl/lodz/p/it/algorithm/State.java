@@ -25,6 +25,18 @@ public class State {
         this.zeroCoordinates = locateZero();
     }
 
+    public State(State newFrame) {
+
+        this.COLUMN_NUMBER = newFrame.getCOLUMN_NUMBER();
+        this.ROW_NUMBER = newFrame.getROW_NUMBER();
+        puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
+        this.setPuzzle(newFrame.getPuzzle());
+        for(int i=0; i<COLUMN_NUMBER; i++) {
+            if (ROW_NUMBER >= 0) System.arraycopy(newFrame.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
+        }
+        zeroCoordinates = locateZero();
+    }
+
     private Pair<Integer, Integer> locateZero() {
         for(int i = 0 ; i < ROW_NUMBER; i++) {
             for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
@@ -37,7 +49,7 @@ public class State {
     }
 
     public void move(Direction direction) {
-            solutionSteps += direction + " ";
+            solutionSteps += direction+" ";
             depth++;
             int newX = zeroCoordinates.fst;
             int newY = zeroCoordinates.snd;
