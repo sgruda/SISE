@@ -36,6 +36,7 @@ public class AlgorithmAstar extends Algorithm {
                 }
             }
         }
+        super.getCurrentState().printPuzzle();
         return super.getCurrentState().getPuzzle();
     }
     private State findBestStateForHeuristic() {
