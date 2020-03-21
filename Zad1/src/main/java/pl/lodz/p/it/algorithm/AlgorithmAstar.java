@@ -18,29 +18,37 @@ public class AlgorithmAstar extends Algorithm {
     }
     @Override
     public int[][] solve() {
-        this.statesToVisitWithHeuristicNumber.put(Integer.MAX_VALUE, super.getCurrentState());
-        while (this.getStatesToVisitWithHeuristicNumber().isEmpty() && !super.isSolved()) {
+        this.statesToVisitWithHeuristicNumber.put(Integer.MAX_VALUE-1, super.getCurrentState());
+        while (!this.getStatesToVisitWithHeuristicNumber().isEmpty() && !super.isSolved()) {
             State newState = this.findBestStateForHeuristic();
             this.getVisitedStates().add(newState);
+            System.out.println();
+            newState.printPuzzle();
+            System.out.println();
+
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
                 if(newState.canMoved(super.getDirectionToMove(directionCharIndex))) {
-                    State movedState = newState.clone();
+//                    State movedState = newState.clone();
+                    State movedState = new State(newState);
                     movedState.move(super.getDirectionToMove(directionCharIndex));
-
+                    System.out.println(!this.getVisitedStates().contains(movedState));
                     if (!this.getVisitedStates().contains(movedState)) {
-                        this.getStatesToVisit().add(movedState);
+//                        this.getStatesToVisit().add(movedState);
                         int calculatedDistance = heuristic.calculateDistance(movedState);
                         calculatedDistance += movedState.getDepth();//tu moze byc problem
+                        System.out.println("calculatedDistance = " + calculatedDistance);
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
                     }
                 }
             }
         }
+        System.out.println("Rozwiazanie:");
         super.getCurrentState().printPuzzle();
         return super.getCurrentState().getPuzzle();
     }
     private State findBestStateForHeuristic() {
-        State bestState = super.getCurrentState().clone();
+//        State bestState = super.getCurrentState().clone();
+        State bestState = new State(super.getCurrentState());
         int bestHeuristicNumber = Integer.MAX_VALUE;
 
         for(int heuristicNumber : this.statesToVisitWithHeuristicNumber.keySet()) {
@@ -52,6 +60,7 @@ public class AlgorithmAstar extends Algorithm {
             bestState = statesToVisitWithHeuristicNumber.get(bestHeuristicNumber);
             this.statesToVisitWithHeuristicNumber.remove(bestHeuristicNumber);
         }
+
         return bestState;
     }
 }

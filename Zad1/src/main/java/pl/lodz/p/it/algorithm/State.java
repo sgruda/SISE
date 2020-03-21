@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
 
+import java.util.Arrays;
+
 
 @Getter
 @Setter
@@ -24,7 +26,16 @@ public class State {
         this.ROW_NUMBER = ROW_NUMBER;
         this.zeroCoordinates = locateZero();
     }
-
+    public State(State state) {
+        this.COLUMN_NUMBER = state.getCOLUMN_NUMBER();
+        this.ROW_NUMBER = state.getROW_NUMBER();
+        puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
+        this.puzzle = state.getPuzzle();
+        for(int i=0; i<COLUMN_NUMBER; i++) {
+            if (ROW_NUMBER >= 0) System.arraycopy(state.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
+        }
+        zeroCoordinates = locateZero();
+    }
     private Pair<Integer, Integer> locateZero() {
         for(int i = 0 ; i < ROW_NUMBER; i++) {
             for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
