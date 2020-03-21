@@ -19,26 +19,35 @@ public class AlgorithmAstar extends Algorithm {
     @Override
     public int[][] solve() {
         this.statesToVisitWithHeuristicNumber.put(Integer.MAX_VALUE-1, super.getCurrentState());
-        while (!this.getStatesToVisitWithHeuristicNumber().isEmpty() && !super.isSolved()) {
-            State newState = this.findBestStateForHeuristic();
-            this.getVisitedStates().add(newState);
-            System.out.println();
-            newState.printPuzzle();
-            System.out.println();
 
-            for (int directionCharIndex = 0; directionCharIndex < this.getSearchOrder().length(); directionCharIndex++) {
-                if(newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
-//                    State movedState = newState.clone();
-                    State movedState = new State(newState);
-                    movedState.move(this.getDirectionToMove(directionCharIndex));
+        while (!statesToVisitWithHeuristicNumber.isEmpty() && !isSolved()) {
+            State newState = findBestStateForHeuristic();
+            this.getVisitedStates().add(newState);
+            this.getCurrentState().printPuzzle();
+            if (this.isSolved()) {
+                // this.generateStatistics();
+                this.getCurrentState().printPuzzle();
+                //System.out.println(this.getStatistics());
+                return super.getCurrentState().getPuzzle();
+            }
+
+            for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
+                if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
+                    State movedState = newState.clone();
+                    movedState.move(super.getDirectionToMove(directionCharIndex));
                     this.setCurrentState(movedState);
-                    System.out.println(!this.getVisitedStates().contains(movedState));
                     if (!this.getVisitedStates().contains(movedState)) {
 //                        this.getStatesToVisit().add(movedState);
                         int calculatedDistance = heuristic.calculateDistance(movedState);
-                        calculatedDistance += movedState.getDepth();//tu moze byc problem
+                        calculatedDistance += movedState.getSolutionSteps().length();//tu moze byc problem
                         System.out.println("calculatedDistance = " + calculatedDistance);
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
+                    }
+                    if (this.isSolved()) {
+                        // this.generateStatistics();
+                        this.getCurrentState().printPuzzle();
+                        //System.out.println(this.getStatistics());
+                        return super.getCurrentState().getPuzzle();
                     }
                 }
             }
