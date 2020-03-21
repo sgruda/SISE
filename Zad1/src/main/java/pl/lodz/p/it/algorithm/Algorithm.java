@@ -2,6 +2,7 @@ package pl.lodz.p.it.algorithm;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.lodz.p.it.enums.Direction;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,12 +15,16 @@ public abstract class Algorithm {
     private Queue<State> visitedStates;
     @Setter
     private Queue<State> statesToVisit;
+    private String searchOrder;
 
-    public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles) {
+    public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder) {
         this.visitedStates = new LinkedList<>();
         this.statesToVisit = new LinkedList<>();
         this.currentState = new State(puzzles, COLUMN_NUMBER, ROW_NUMBER);
+        this.searchOrder = searchOrder.toUpperCase();
     }
+
+    public abstract int[][] solve();
 
     protected boolean isSolved() {
         int i = 1;
@@ -40,7 +45,22 @@ public abstract class Algorithm {
         }
         return true;
     }
-
-    public abstract int[][] solve();
-
+    protected Direction getDirectionToMove(int directionCharIndex) {
+        switch (searchOrder.charAt(directionCharIndex)) {
+            case 'U':
+            case 'u':
+                return Direction.up;
+            case 'D':
+            case 'd':
+                return Direction.down;
+            case 'L':
+            case 'l':
+                return Direction.left;
+            case 'R':
+            case 'r':
+                return Direction.right;
+            default:
+                return null;
+        }
+    }
 }
