@@ -20,11 +20,11 @@ public class AlgorithmAstar extends Algorithm {
     public int[][] solve() {
         this.statesToVisitWithHeuristicNumber.put(Integer.MAX_VALUE, super.getCurrentState());
         while (this.getStatesToVisitWithHeuristicNumber().isEmpty() && !super.isSolved()) {
-            State newState ;//= findFrameWithTheLowestHeuristic();
+            State newState = this.findBestStateForHeuristic();
             this.getVisitedStates().add(newState);
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
                 if(newState.canMoved(super.getDirectionToMove(directionCharIndex))) {
-                    State movedState = new State(newState);
+                    State movedState = newState.clone();
                     movedState.move(super.getDirectionToMove(directionCharIndex));
 
                     if (!this.getVisitedStates().contains(movedState)) {
@@ -36,6 +36,21 @@ public class AlgorithmAstar extends Algorithm {
                 }
             }
         }
-        return new int[0][];
+        return super.getCurrentState().getPuzzle();
+    }
+    private State findBestStateForHeuristic() {
+        State bestState = super.getCurrentState().clone();
+        int bestHeuristicNumber = Integer.MAX_VALUE;
+
+        for(int heuristicNumber : this.statesToVisitWithHeuristicNumber.keySet()) {
+            if(heuristicNumber < bestHeuristicNumber) {
+                bestHeuristicNumber = heuristicNumber;
+            }
+        }
+        if(this.statesToVisitWithHeuristicNumber.containsKey(bestHeuristicNumber)) {
+            bestState = statesToVisitWithHeuristicNumber.get(bestHeuristicNumber);
+            this.statesToVisitWithHeuristicNumber.remove(bestHeuristicNumber);
+        }
+        return bestState;
     }
 }
