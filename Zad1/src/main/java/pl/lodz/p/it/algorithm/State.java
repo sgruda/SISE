@@ -48,7 +48,7 @@ public class State {
     }
 
     public void move(Direction direction) {
-            solutionSteps += direction + " ";
+            solutionSteps += direction ;//+ " ";
             depth++;
             int newX = zeroCoordinates.fst;
             int newY = zeroCoordinates.snd;

@@ -39,7 +39,7 @@ public class AlgorithmAstar extends Algorithm {
                     if (!this.getVisitedStates().contains(movedState)) {
 //                        this.getStatesToVisit().add(movedState);
                         int calculatedDistance = heuristic.calculateDistance(movedState);
-                        calculatedDistance += movedState.getSolutionSteps().length();//tu moze byc problem
+                        calculatedDistance += movedState.getDepth();//tu moze byc problem
                         System.out.println("calculatedDistance = " + calculatedDistance);
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
                     }
