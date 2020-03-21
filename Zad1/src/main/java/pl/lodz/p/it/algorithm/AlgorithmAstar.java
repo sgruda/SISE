@@ -26,11 +26,12 @@ public class AlgorithmAstar extends Algorithm {
             newState.printPuzzle();
             System.out.println();
 
-            for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
-                if(newState.canMoved(super.getDirectionToMove(directionCharIndex))) {
+            for (int directionCharIndex = 0; directionCharIndex < this.getSearchOrder().length(); directionCharIndex++) {
+                if(newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
 //                    State movedState = newState.clone();
                     State movedState = new State(newState);
-                    movedState.move(super.getDirectionToMove(directionCharIndex));
+                    movedState.move(this.getDirectionToMove(directionCharIndex));
+                    this.setCurrentState(movedState);
                     System.out.println(!this.getVisitedStates().contains(movedState));
                     if (!this.getVisitedStates().contains(movedState)) {
 //                        this.getStatesToVisit().add(movedState);
