@@ -64,7 +64,7 @@ public class FileService {
             e.printStackTrace();
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.ADDITIONAL_DATA_FILE)))) {
-            writer.write(solutionBuilder.toString());
+        writer.write(solutionBuilder.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

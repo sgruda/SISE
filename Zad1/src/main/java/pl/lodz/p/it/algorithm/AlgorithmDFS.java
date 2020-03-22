@@ -33,7 +33,9 @@ public class AlgorithmDFS extends Algorithm {
             }
 
             if (this.isSolved()) {
+                this.generateStatistics();
                 this.getCurrentState().printPuzzle();
+                System.out.println(this.getStatistics());
                 return super.getCurrentState().getPuzzle();
             }
 
@@ -44,9 +46,15 @@ public class AlgorithmDFS extends Algorithm {
                     this.setCurrentState(movedState);
                     if (!this.getVisitedStates().contains(movedState))
                         states.add(movedState);
+
                 }
             }
         }
+        this.generateStatistics();
+
+        System.out.print("Statystyki: ");
+        System.out.println(this.getStatistics());
+
         System.out.print("Rozwiazanie: ");
         this.getCurrentState().printPuzzle();
         return super.getCurrentState().getPuzzle();
