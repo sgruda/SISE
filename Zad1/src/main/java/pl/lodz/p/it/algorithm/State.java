@@ -18,6 +18,7 @@ public class State {
     private final int ROW_NUMBER;
     private Pair<Integer, Integer> zeroCoordinates;
     private String solutionSteps = "";
+    private String solutionLetters = "";
     private int depth=0;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
@@ -49,6 +50,7 @@ public class State {
 
     public void move(Direction direction) {
             solutionSteps += direction ;//+ " ";
+            solutionLetters += direction.toString().toUpperCase().charAt(0);
             depth++;
             int newX = zeroCoordinates.fst;
             int newY = zeroCoordinates.snd;
@@ -131,7 +133,7 @@ public class State {
             ret[i] = java.util.Arrays.copyOf(row, row.length);
             i++;
         }
-        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(), getDepth());
+        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(),getSolutionLetters(),getDepth());
     }
     public void printPuzzle(){
         for(int [] b : puzzle){

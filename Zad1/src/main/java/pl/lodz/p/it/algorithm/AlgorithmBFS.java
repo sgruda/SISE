@@ -21,7 +21,7 @@ public class AlgorithmBFS extends Algorithm {
                         this.getStatesToVisit().add(movedState);
                     }
                     if (this.isSolved()) {
-                        System.out.println(this.getCurrentState().getSolutionSteps());
+                        System.out.println(this.getCurrentState().getSolutionLetters());
                         System.out.println(this.getCurrentState().getDepth());
                         this.getCurrentState().printPuzzle();
                         return super.getCurrentState().getPuzzle();
@@ -30,7 +30,7 @@ public class AlgorithmBFS extends Algorithm {
             }
         }
 
-        System.out.println(this.getCurrentState().getSolutionSteps());
+        System.out.println(this.getCurrentState().getSolutionLetters());
         System.out.println(this.getCurrentState().getDepth());
         this.getCurrentState().printPuzzle();
         return this.getCurrentState().getPuzzle();
