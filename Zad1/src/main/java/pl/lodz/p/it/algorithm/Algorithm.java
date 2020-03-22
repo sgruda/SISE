@@ -100,7 +100,7 @@ public abstract class Algorithm {
 
     public String generateStatistics() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getCurrentState().getSolutionSteps().length()+"\n");
+        sb.append(this.getCurrentState().getSolutionLetters().length()+"\n");
         sb.append(this.getVisitedStates().size()+"\n");
         sb.append(this.getVisitedStates().size()+"\n");
         sb.append(this.getCurrentState().getDepth());

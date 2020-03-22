@@ -4,6 +4,7 @@ import lombok.Getter;
 import pl.lodz.p.it.algorithm.Algorithm;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 
@@ -53,9 +54,11 @@ public class FileService {
         StringBuilder builder = new StringBuilder();
         StringBuilder solutionBuilder = new StringBuilder();
         builder.append(algorithm.getCurrentState().getSolutionLetters()+"\n");
-        builder.append(algorithm.getCurrentState().getSolutionSteps().length());
+        builder.append(algorithm.getCurrentState().getSolutionLetters().length());
         solutionBuilder.append(algorithm.generateStatistics()+"\n");
-        solutionBuilder.append(algorithm.getExecutionTime());
+        DecimalFormat decimalFormat = new DecimalFormat("0.000");
+        solutionBuilder.append(decimalFormat.format(algorithm.getExecutionTime()));
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.SOLVED_FILE)))) {
             writer.write(builder.toString());
         } catch (FileNotFoundException e) {

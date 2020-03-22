@@ -9,7 +9,7 @@ public class AlgorithmDFS extends Algorithm {
 
     @Getter
     private Stack<State> states;
-    private final static int MAX_DEPTH = 22;
+    private final static int MAX_DEPTH = 20;
 
     public AlgorithmDFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder) {
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles, searchOrder);
@@ -21,7 +21,7 @@ public class AlgorithmDFS extends Algorithm {
 
         this.states.add(this.getCurrentState());
 
-        while (!states.isEmpty()) {
+        while (!states.isEmpty() && !this.isSolved()) {
             State newState = new State(states.pop());
             if(this.getVisitedStates().contains(newState)){
                 continue;
