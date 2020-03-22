@@ -57,6 +57,25 @@ public abstract class Algorithm {
         }
         return true;
     }
+    protected boolean isSolved(State state) {
+        int i = 1;
+        for (int[] b : state.getPuzzle()) {
+            for (int b2 : b) {
+                if (b2 == i) {
+                    if (i == 15) {
+                        int[][] puzzleTemp = state.getPuzzle();
+                        if (puzzleTemp[state.getROW_NUMBER() - 1][state.getCOLUMN_NUMBER() - 1] == 0) {
+                            return true;
+                        }
+                    }
+                    i++;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 //        public void generateStatistics(){
 //        StringBuilder sb = new StringBuilder();

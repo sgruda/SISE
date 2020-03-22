@@ -29,7 +29,7 @@ public class State {
         this.COLUMN_NUMBER = state.getCOLUMN_NUMBER();
         this.ROW_NUMBER = state.getROW_NUMBER();
         puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
-        this.puzzle = state.getPuzzle();
+        this.depth = state.depth + 1;
         for(int i=0; i<COLUMN_NUMBER; i++) {
             if (ROW_NUMBER >= 0) System.arraycopy(state.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
         }

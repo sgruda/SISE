@@ -6,53 +6,49 @@ import java.util.Stack;
 
 
 public class AlgorithmDFS extends Algorithm {
-
-    @Getter
-    private Stack<State> states;
-    private final static int MAX_DEPTH = 20;
+    private final int DEPTH_LIMIT = 22;
+    private Stack<State> toVisit;
 
     public AlgorithmDFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder) {
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles, searchOrder);
-        this.states = new Stack<>();
+        this.toVisit = new Stack<>();
     }
 
     @Override
     public int[][] solve() {
 
-        this.states.add(this.getCurrentState());
+        toVisit.add(this.getCurrentState());
 
-        while (!states.isEmpty() && !this.isSolved()) {
-            State newState = new State(states.pop());
-            if(this.getVisitedStates().contains(newState)){
+        while(!toVisit.isEmpty()) {
+            State newFrame = new State(toVisit.pop());
+            if(this.getVisitedStates().contains(newFrame)) {
                 continue;
             }
-            this.getVisitedStates().add(newState);
+            this.getVisitedStates().add(newFrame);
+            //this.incraseDepth(newFrame);
 
-            if(newState.getSolutionSteps().length() >= MAX_DEPTH){
+            if(newFrame.getDepth() >= DEPTH_LIMIT) {
                 continue;
             }
-            if (this.isSolved()) {
-//                this.generateStatistics();
+
+            if(this.isSolved(newFrame)) {
+                this.setCurrentState(newFrame);
+                //this.generateDetails();
+                System.out.print("Rozwiazanie: ");
                 this.getCurrentState().printPuzzle();
-                System.out.println(this.generateStatistics());
-                return super.getCurrentState().getPuzzle();
+                return this.getCurrentState().getPuzzle();
             }
 
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
-                if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
-                    State movedState = newState.clone();
-                    movedState.move(super.getDirectionToMove(directionCharIndex));
-                    this.setCurrentState(movedState);
-                    if (!this.getVisitedStates().contains(movedState))
-                        states.add(movedState);
+                if (newFrame.canMoved(super.getDirectionToMove(directionCharIndex))) {
+                    State movedFrame = new State(newFrame);
+                    movedFrame.move(super.getDirectionToMove(directionCharIndex));
 
+                    if(!this.getVisitedStates().contains(movedFrame))
+                        toVisit.add(movedFrame);
                 }
             }
         }
-        this.generateStatistics();
-
-        System.out.print("Statystyki: ");
-        System.out.println(this.generateStatistics());
 
         System.out.print("Rozwiazanie: ");
         this.getCurrentState().printPuzzle();
