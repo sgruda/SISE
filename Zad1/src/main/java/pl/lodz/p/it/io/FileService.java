@@ -53,12 +53,11 @@ public class FileService {
     public void saveData(final int[][] solvedPuzzle, Algorithm algorithm) {
         StringBuilder builder = new StringBuilder();
         StringBuilder solutionBuilder = new StringBuilder();
+        builder.append(algorithm.getCurrentState().getSolutionLetters().length()+"\n");
         builder.append(algorithm.getCurrentState().getSolutionLetters()+"\n");
-        builder.append(algorithm.getCurrentState().getSolutionLetters().length());
         solutionBuilder.append(algorithm.generateStatistics()+"\n");
         DecimalFormat decimalFormat = new DecimalFormat("0.000");
         solutionBuilder.append(decimalFormat.format(algorithm.getExecutionTime()));
-        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.SOLVED_FILE)))) {
             writer.write(builder.toString());
         } catch (FileNotFoundException e) {

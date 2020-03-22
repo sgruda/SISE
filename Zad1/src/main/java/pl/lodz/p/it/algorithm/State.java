@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
 
+import java.util.HashSet;
+
 
 @Getter
 @Setter
@@ -29,7 +31,9 @@ public class State {
         this.COLUMN_NUMBER = state.getCOLUMN_NUMBER();
         this.ROW_NUMBER = state.getROW_NUMBER();
         puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
-        this.depth = state.depth + 1;
+        this.solutionSteps += state.getSolutionSteps();
+        this.solutionLetters += state.getSolutionLetters();
+        this.depth = state.getDepth()+1;
         for(int i=0; i<COLUMN_NUMBER; i++) {
             if (ROW_NUMBER >= 0) System.arraycopy(state.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
         }

@@ -1,0 +1,13 @@
+pl\lodz\p\it\AlgorithmFactory.class
+pl\lodz\p\it\algorithm\State.class
+pl\lodz\p\it\io\FileService.class
+pl\lodz\p\it\algorithm\heuristic\Heuristic.class
+pl\lodz\p\it\algorithm\heuristic\ManhattanHeuristic.class
+pl\lodz\p\it\algorithm\State$1.class
+pl\lodz\p\it\algorithm\AlgorithmAstar.class
+pl\lodz\p\it\algorithm\Algorithm.class
+pl\lodz\p\it\algorithm\AlgorithmDFS.class
+pl\lodz\p\it\enums\Direction.class
+pl\lodz\p\it\App.class
+pl\lodz\p\it\algorithm\AlgorithmBFS.class
+pl\lodz\p\it\algorithm\heuristic\HammingHeuristic.class

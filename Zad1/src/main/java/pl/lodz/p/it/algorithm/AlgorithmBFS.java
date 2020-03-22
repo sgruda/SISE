@@ -20,18 +20,9 @@ public class AlgorithmBFS extends Algorithm {
                     if (!this.getVisitedStates().contains(movedState)) {
                         this.getStatesToVisit().add(movedState);
                     }
-                    if (this.isSolved()) {
-                        System.out.println(this.getCurrentState().getSolutionLetters());
-                        System.out.println(this.getCurrentState().getDepth());
-                        this.getCurrentState().printPuzzle();
-                        return super.getCurrentState().getPuzzle();
-                    }
                 }
             }
         }
-
-        System.out.println(this.getCurrentState().getSolutionLetters());
-        System.out.println(this.getCurrentState().getDepth());
         this.getCurrentState().printPuzzle();
         return this.getCurrentState().getPuzzle();
     }

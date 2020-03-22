@@ -22,9 +22,7 @@ public class AlgorithmAstar extends Algorithm {
         while (!statesToVisitWithHeuristicNumber.isEmpty() && !isSolved()) {
             State newState = findBestStateForHeuristic();
             this.getVisitedStates().add(newState);
-            if (this.isSolved()) {
-                return super.getCurrentState().getPuzzle();
-            }
+
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
                 if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
                     State movedState = newState.clone();
@@ -35,7 +33,6 @@ public class AlgorithmAstar extends Algorithm {
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
                     }
                     if (this.isSolved()) {
-                        System.out.println("Rozwiazanie:");
                         this.getCurrentState().printPuzzle();
                         return super.getCurrentState().getPuzzle();
                     }
