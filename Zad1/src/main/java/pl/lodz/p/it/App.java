@@ -19,6 +19,6 @@ public class App {
         FileService fileService = new FileService(args[2], args[3], args[4]);
         Algorithm algorithm = AlgorithmFactory.getAlgorithm(args, fileService);
 
-        fileService.saveData(algorithm.runWithTimeCounter(),algorithm);
+        fileService.saveData(algorithm.runWithTimeCounter(), algorithm);
     }
 }

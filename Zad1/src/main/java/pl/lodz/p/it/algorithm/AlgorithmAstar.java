@@ -25,28 +25,20 @@ public class AlgorithmAstar extends Algorithm {
             this.getVisitedStates().add(newState);
             this.getCurrentState().printPuzzle();
             if (this.isSolved()) {
-                // this.generateStatistics();
                 this.getCurrentState().printPuzzle();
-                //System.out.println(this.getStatistics());
                 return super.getCurrentState().getPuzzle();
             }
-
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
                 if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
                     State movedState = newState.clone();
                     movedState.move(super.getDirectionToMove(directionCharIndex));
                     this.setCurrentState(movedState);
                     if (!this.getVisitedStates().contains(movedState)) {
-//                        this.getStatesToVisit().add(movedState);
-                        int calculatedDistance = heuristic.calculateDistance(movedState);
-                        calculatedDistance += movedState.getDepth();//tu moze byc problem
-                        System.out.println("calculatedDistance = " + calculatedDistance);
+                        int calculatedDistance = heuristic.calculateDistance(movedState) + movedState.getDepth();
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
                     }
                     if (this.isSolved()) {
-                        // this.generateStatistics();
                         this.getCurrentState().printPuzzle();
-                        //System.out.println(this.getStatistics());
                         return super.getCurrentState().getPuzzle();
                     }
                 }
@@ -57,7 +49,6 @@ public class AlgorithmAstar extends Algorithm {
         return super.getCurrentState().getPuzzle();
     }
     private State findBestStateForHeuristic() {
-//        State bestState = super.getCurrentState().clone();
         State bestState = new State(super.getCurrentState());
         int bestHeuristicNumber = Integer.MAX_VALUE;
 

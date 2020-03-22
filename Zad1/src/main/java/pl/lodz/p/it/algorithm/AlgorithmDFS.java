@@ -23,8 +23,6 @@ public class AlgorithmDFS extends Algorithm {
 
         while (!states.isEmpty()) {
             State newState = new State(states.pop());
-            //State newState = states.pop();
-
             if(this.getVisitedStates().contains(newState)){
                 continue;
             }
@@ -35,9 +33,7 @@ public class AlgorithmDFS extends Algorithm {
             }
 
             if (this.isSolved()) {
-               // this.generateStatistics();
                 this.getCurrentState().printPuzzle();
-                //System.out.println(this.getStatistics());
                 return super.getCurrentState().getPuzzle();
             }
 
@@ -48,14 +44,11 @@ public class AlgorithmDFS extends Algorithm {
                     this.setCurrentState(movedState);
                     if (!this.getVisitedStates().contains(movedState))
                         states.add(movedState);
-
-
                 }
             }
         }
-       // this.generateStatistics();
+        System.out.print("Rozwiazanie: ");
         this.getCurrentState().printPuzzle();
-     //   System.out.println(this.getStatistics());
         return super.getCurrentState().getPuzzle();
     }
 }

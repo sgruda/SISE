@@ -8,7 +8,7 @@ public class ManhattanHeuristic implements Heuristic {
 
     @Override
     public int calculateDistance(State state) {
-        int distance = 0, correctX, correctY;
+        int distance = 0;
         this.createCorrectPuzzle(state.getROW_NUMBER(), state.getCOLUMN_NUMBER());
         for (int x = 0 ; x < state.getROW_NUMBER(); x++) {
             for (int y = 0; y < state.getCOLUMN_NUMBER(); y++) {

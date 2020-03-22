@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
 
-import java.util.Arrays;
-
 
 @Getter
 @Setter
@@ -49,7 +47,7 @@ public class State {
     }
 
     public void move(Direction direction) {
-            solutionSteps += direction ;//+ " ";
+            solutionSteps += direction;
             solutionLetters += direction.toString().toUpperCase().charAt(0);
             depth++;
             int newX = zeroCoordinates.fst;
