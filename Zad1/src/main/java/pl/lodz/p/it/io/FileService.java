@@ -1,6 +1,7 @@
 package pl.lodz.p.it.io;
 
 import lombok.Getter;
+import pl.lodz.p.it.algorithm.Algorithm;
 
 import java.io.*;
 import java.util.Scanner;
@@ -48,19 +49,13 @@ public class FileService {
             e.printStackTrace();
         }
     }
-    public void saveData(final int[][] solvedPuzzle,String statistics,long executionTime) {
+    public void saveData(final int[][] solvedPuzzle, Algorithm algorithm) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < solvedPuzzle.length; i++) {
-            for (int j = 0; j < solvedPuzzle[0].length; j++) {
-                builder.append(solvedPuzzle[i][j] + "");
-                if (j < solvedPuzzle.length - 1)
-                    builder.append(" ");
-            }
-            builder.append("\n");
-        }
-        StringBuilder statisticsBuilder = new StringBuilder();
-        statisticsBuilder.append(statistics);
-        statisticsBuilder.append(executionTime/1000.0 + "\n");
+        StringBuilder solutionBuilder = new StringBuilder();
+        builder.append(algorithm.getCurrentState().getSolutionLetters()+"\n");
+        builder.append(algorithm.getCurrentState().getSolutionSteps().length());
+        solutionBuilder.append(algorithm.generateStatistics()+"\n");
+        solutionBuilder.append(algorithm.getExecutionTime());
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.SOLVED_FILE)))) {
             writer.write(builder.toString());
         } catch (FileNotFoundException e) {
@@ -69,7 +64,7 @@ public class FileService {
             e.printStackTrace();
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(this.ADDITIONAL_DATA_FILE)))) {
-            writer.write(statisticsBuilder.toString());
+        writer.write(solutionBuilder.toString());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

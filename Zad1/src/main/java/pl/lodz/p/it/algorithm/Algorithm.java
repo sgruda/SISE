@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.lodz.p.it.enums.Direction;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,23 +14,29 @@ public abstract class Algorithm {
     @Setter
     private State currentState;
     @Setter
-    private Queue<State> visitedStates;
+    private HashSet<State> visitedStates;
     @Setter
     private Queue<State> statesToVisit;
 
     private String searchOrder;
     @Setter
-    private long executionTime;
-    private String statistics = "";
+    private double executionTime;
 
     public Algorithm(int COLUMN_NUMBER, int ROW_NUMBER, int[][] puzzles, String searchOrder) {
-        this.visitedStates = new LinkedList<>();
+        this.visitedStates = new HashSet<>();
         this.statesToVisit = new LinkedList<>();
         this.currentState = new State(puzzles, COLUMN_NUMBER, ROW_NUMBER);
         this.searchOrder = searchOrder.toUpperCase();
     }
 
     public abstract int[][] solve();
+
+    public int[][] runWithTimeCounter(){
+        long startTime = System.currentTimeMillis();
+        int[][] result = this.solve();
+        this.setExecutionTime((System.currentTimeMillis()-startTime));
+        return result;
+    }
 
     protected boolean isSolved() {
         int i = 1;
@@ -89,5 +96,14 @@ public abstract class Algorithm {
             default:
                 return null;
         }
+    }
+
+    public String generateStatistics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getCurrentState().getSolutionSteps().length()+"\n");
+        sb.append(this.getVisitedStates().size()+"\n");
+        sb.append(this.getVisitedStates().size()+"\n");
+        sb.append(this.getCurrentState().getDepth());
+        return sb.toString();
     }
 }

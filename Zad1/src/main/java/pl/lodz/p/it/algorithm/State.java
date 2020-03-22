@@ -16,6 +16,7 @@ public class State {
     private final int ROW_NUMBER;
     private Pair<Integer, Integer> zeroCoordinates;
     private String solutionSteps = "";
+    private String solutionLetters = "";
     private int depth=0;
 
     public State(int[][] puzzle, int COLUMN_NUMBER, int ROW_NUMBER) {
@@ -24,19 +25,16 @@ public class State {
         this.ROW_NUMBER = ROW_NUMBER;
         this.zeroCoordinates = locateZero();
     }
-
-    public State(State newFrame) {
-
-        this.COLUMN_NUMBER = newFrame.getCOLUMN_NUMBER();
-        this.ROW_NUMBER = newFrame.getROW_NUMBER();
+    public State(State state) {
+        this.COLUMN_NUMBER = state.getCOLUMN_NUMBER();
+        this.ROW_NUMBER = state.getROW_NUMBER();
         puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
-        this.setPuzzle(newFrame.getPuzzle());
+        this.puzzle = state.getPuzzle();
         for(int i=0; i<COLUMN_NUMBER; i++) {
-            if (ROW_NUMBER >= 0) System.arraycopy(newFrame.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
+            if (ROW_NUMBER >= 0) System.arraycopy(state.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
         }
         zeroCoordinates = locateZero();
     }
-
     private Pair<Integer, Integer> locateZero() {
         for(int i = 0 ; i < ROW_NUMBER; i++) {
             for(int j = 0 ; j < COLUMN_NUMBER ; j++) {
@@ -49,7 +47,8 @@ public class State {
     }
 
     public void move(Direction direction) {
-            solutionSteps += direction+" ";
+            solutionSteps += direction;
+            solutionLetters += direction.toString().toUpperCase().charAt(0);
             depth++;
             int newX = zeroCoordinates.fst;
             int newY = zeroCoordinates.snd;
@@ -132,7 +131,7 @@ public class State {
             ret[i] = java.util.Arrays.copyOf(row, row.length);
             i++;
         }
-        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(), getDepth());
+        return new State(ret, getCOLUMN_NUMBER(), getROW_NUMBER(), getZeroCoordinates(), getSolutionSteps(),getSolutionLetters(),getDepth());
     }
     public void printPuzzle(){
         for(int [] b : puzzle){
