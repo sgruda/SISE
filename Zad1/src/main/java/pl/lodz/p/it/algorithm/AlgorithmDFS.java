@@ -31,11 +31,10 @@ public class AlgorithmDFS extends Algorithm {
             if(newState.getSolutionSteps().length() >= MAX_DEPTH){
                 continue;
             }
-
             if (this.isSolved()) {
-                this.generateStatistics();
+//                this.generateStatistics();
                 this.getCurrentState().printPuzzle();
-                System.out.println(this.getStatistics());
+                System.out.println(this.generateStatistics());
                 return super.getCurrentState().getPuzzle();
             }
 
@@ -53,7 +52,7 @@ public class AlgorithmDFS extends Algorithm {
         this.generateStatistics();
 
         System.out.print("Statystyki: ");
-        System.out.println(this.getStatistics());
+        System.out.println(this.generateStatistics());
 
         System.out.print("Rozwiazanie: ");
         this.getCurrentState().printPuzzle();

@@ -19,13 +19,10 @@ public class AlgorithmAstar extends Algorithm {
     @Override
     public int[][] solve() {
         this.statesToVisitWithHeuristicNumber.put(Integer.MAX_VALUE-1, super.getCurrentState());
-
         while (!statesToVisitWithHeuristicNumber.isEmpty() && !isSolved()) {
             State newState = findBestStateForHeuristic();
             this.getVisitedStates().add(newState);
-            this.getCurrentState().printPuzzle();
             if (this.isSolved()) {
-                this.getCurrentState().printPuzzle();
                 return super.getCurrentState().getPuzzle();
             }
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
@@ -38,14 +35,13 @@ public class AlgorithmAstar extends Algorithm {
                         this.statesToVisitWithHeuristicNumber.put(calculatedDistance, movedState);
                     }
                     if (this.isSolved()) {
+                        System.out.println("Rozwiazanie:");
                         this.getCurrentState().printPuzzle();
                         return super.getCurrentState().getPuzzle();
                     }
                 }
             }
         }
-        System.out.println("Rozwiazanie:");
-        super.getCurrentState().printPuzzle();
         return super.getCurrentState().getPuzzle();
     }
     private State findBestStateForHeuristic() {

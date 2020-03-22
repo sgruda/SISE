@@ -58,24 +58,24 @@ public abstract class Algorithm {
         return true;
     }
 
-        public void generateStatistics(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.currentState.getSolutionSteps().length()+"\n");
-        sb.append(this.visitedStates.size()+"\n");
-        sb.append(this.visitedStates.size()+"\n");
-        sb.append(this.currentState.getDepth()+"\n");
-        statistics =  sb.toString();
+//        public void generateStatistics(){
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(this.currentState.getSolutionSteps().length()+"\n");
+//        sb.append(this.visitedStates.size()+"\n");
+//        sb.append(this.visitedStates.size()+"\n");
+//        sb.append(this.currentState.getDepth()+"\n");
+//        statistics =  sb.toString();
+//
+//    }
 
-    }
-
-    public int[][] solveWithTimeCalculation()
-    {
-        Stopwatch stopwatch = Stopwatch.createStarted();
-        int[][] result = this.solve();
-        stopwatch.stop();
-        this.setExecutionTime(stopwatch.elapsed().toMillis());
-        return result;
-    }
+//    public int[][] solveWithTimeCalculation()
+//    {
+//        Stopwatch stopwatch = Stopwatch.createStarted();
+//        int[][] result = this.solve();
+//        stopwatch.stop();
+//        this.setExecutionTime(stopwatch.elapsed().toMillis());
+//        return result;
+//    }
 
 
 
@@ -106,4 +106,5 @@ public abstract class Algorithm {
         sb.append(this.getCurrentState().getDepth());
         return sb.toString();
     }
+
 }
