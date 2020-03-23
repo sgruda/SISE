@@ -30,7 +30,7 @@ public class State {
     public State(State state) {
         this.COLUMN_NUMBER = state.getCOLUMN_NUMBER();
         this.ROW_NUMBER = state.getROW_NUMBER();
-        puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
+        this.puzzle = new int[ROW_NUMBER][COLUMN_NUMBER];
         this.solutionSteps += state.getSolutionSteps();
         this.solutionLetters += state.getSolutionLetters();
         this.depth = state.getDepth()+1;

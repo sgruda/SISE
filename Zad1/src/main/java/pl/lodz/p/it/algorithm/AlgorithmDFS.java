@@ -29,18 +29,17 @@ public class AlgorithmDFS extends Algorithm {
 
             this.getVisitedStates().add(newState);
 
-            if(newState.getSolutionSteps().length() >= MAX_DEPTH){
+            if(newState.getDepth() >= MAX_DEPTH){
                 continue;
             }
 
             for (int directionCharIndex = 0; directionCharIndex < super.getSearchOrder().length(); directionCharIndex++) {
-                if (newState.canMoved(this.getDirectionToMove(directionCharIndex))) {
+                if (newState.canMoved(super.getDirectionToMove(directionCharIndex))) {
                     State movedState = newState.clone();
                     movedState.move(super.getDirectionToMove(directionCharIndex));
                     this.setCurrentState(movedState);
                     if (!this.getVisitedStates().contains(movedState))
                         states.add(movedState);
-
                 }
             }
         }
