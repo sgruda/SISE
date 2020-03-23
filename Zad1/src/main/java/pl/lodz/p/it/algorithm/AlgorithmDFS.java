@@ -9,7 +9,7 @@ public class AlgorithmDFS extends Algorithm {
 
     @Getter
     private Stack<State> states;
-    private final static int MAX_DEPTH = 35;
+    private final static int MAX_DEPTH = 26;
 
     public AlgorithmDFS(int ROW_NUMBER, int COLUMN_NUMBER, int[][] puzzles, String searchOrder) {
         super(ROW_NUMBER, COLUMN_NUMBER, puzzles, searchOrder);
