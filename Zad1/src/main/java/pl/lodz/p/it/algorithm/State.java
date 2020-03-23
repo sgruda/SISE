@@ -34,9 +34,9 @@ public class State {
         this.solutionSteps += state.getSolutionSteps();
         this.solutionLetters += state.getSolutionLetters();
         this.depth = state.getDepth()+1;
-        for(int i=0; i<COLUMN_NUMBER; i++) {
-            if (ROW_NUMBER >= 0) System.arraycopy(state.puzzle[i], 0, puzzle[i], 0, ROW_NUMBER);
-        }
+        for(int i = 0; i < ROW_NUMBER; i++)
+            for(int j = 0; j < COLUMN_NUMBER; j++)
+                this.puzzle[i][j] = state.getPuzzle()[i][j];
         zeroCoordinates = locateZero();
     }
     private Pair<Integer, Integer> locateZero() {
