@@ -17,7 +17,6 @@ def build_model():
     layers.Dense(8, activation='relu', input_shape=[len(train_dataset_meas[0].keys())]),
     layers.Dense(16, activation='relu'),
     layers.Dense(32, activation='relu'),
-    layers.Dense(64, activation='relu'),
     layers.Dense(2)
   ])
 
@@ -51,17 +50,18 @@ if __name__ == '__main__':
     #Use the .summary method to print a simple description of the model
     model.summary()
 
-    # model.compile(loss='mse', optimizer=keras.optimizers.RMSprop(0.001), metrics=['mae', 'mse'])
-    #
     EPOCHS = 1000
 
     history = model.fit(merged_train_datasets_meas, merged_train_datasets_ref, epochs=EPOCHS, validation_split=0.2, verbose=0,callbacks=[tfdocs.modeling.EpochDots()])
 
 
-    # solution_predictions = model.predict(compare_dataset_meas)
-    # solution_predictions_df = pd.DataFrame(solution_predictions,columns=['x','y'])
-    #
-    # sns.relplot(x='x', y='y', data=solution_predictions_df)
-    # sns.relplot(x='reference x', y='reference y', data=compare_dataset_ref)
-    # sns.relplot(x='measurement x', y='measurement y', data=compare_dataset_meas)
-    # plt.show()
+    solution_predictions = model.predict(compare_dataset_meas)
+    solution_predictions_df = pd.DataFrame(solution_predictions,columns=['x','y'])
+
+    sns.relplot(x='x', y='y', data=solution_predictions_df)
+    sns.relplot(x='reference x', y='reference y', data=compare_dataset_ref)
+    sns.relplot(x='measurement x', y='measurement y', data=compare_dataset_meas)
+    plt.show()
+
+    solution_predictions_df.to_clipboard(excel=True)
+
